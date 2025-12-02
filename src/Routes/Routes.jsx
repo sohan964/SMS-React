@@ -8,6 +8,10 @@ import AdminLogin from "../pages/admins/AdminLogin/AdminLogin";
 import DepartmentList from "../pages/departments/DepartmentList";
 import UpdateDepartment from "../pages/departments/UpdateDepartment";
 import AddDepartment from "../pages/departments/AddDepartment";
+import TeacherRoutines from "../pages/routines/TeacherRoutines/TeacherRoutines";
+import CreateClassRoutine from "../pages/routines/CreateClassRoutine/CreateClassRoutine";
+import RegisterStudent from "../pages/admins/Admissions/RegisterStudent";
+import StudentAdmission from "../pages/admins/Admissions/StudentAdmission";
 
 export const router = createBrowserRouter([
     {
@@ -44,6 +48,22 @@ export const router = createBrowserRouter([
             {
                 path: "manage-departments/add-department",
                 element: <AddDepartment></AddDepartment>
+            },
+            {
+                path: "teacher-routine",
+                element: <TeacherRoutines></TeacherRoutines>
+            },
+            {
+                path: "create-class-routine",
+                element: <CreateClassRoutine></CreateClassRoutine>
+            },
+            {
+                path: "student-register",
+                element: <RegisterStudent></RegisterStudent>
+            },
+            {
+                path: "student-admission",
+                element: <StudentAdmission></StudentAdmission>
             }
         ]
     }

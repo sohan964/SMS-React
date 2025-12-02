@@ -6,6 +6,7 @@ import { MdSchedule } from "react-icons/md";
 
 import { Link } from "react-router";
 import { AuthContext } from "../../providers/AuthProvider";
+import { FcDepartment } from "react-icons/fc";
 
 const AdminSidebar = () => {
     const {user} = useContext(AuthContext);
@@ -45,7 +46,7 @@ const AdminSidebar = () => {
           <span>Home</span>
         </a>
 
-        {/* Teachers dropdown */}
+        {/* Routine */}
         <div className="dropdown w-full">
           <label
             tabIndex={0}
@@ -62,8 +63,13 @@ const AdminSidebar = () => {
             className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-56"
           >
             <li>
-              <Link to="/" className="flex justify-between items-center">
+              <Link to="/admin-dashboard/teacher-routine" className="flex justify-between items-center">
                 teacher Routine
+              </Link>
+            </li>
+            <li>
+              <Link to="/admin-dashboard/create-class-routine" className="flex justify-between items-center">
+                Add Class Routine
               </Link>
             </li>
           </ul>
@@ -77,7 +83,7 @@ const AdminSidebar = () => {
             className="btn btn-ghost btn-block justify-between"
           >
             <span className="flex items-center gap-3">
-              <MdSchedule />
+              <FcDepartment />
               <span>Departments</span>
             </span>
             <FaAngleDown />
@@ -94,6 +100,43 @@ const AdminSidebar = () => {
             <li>
               <Link to="/admin-dashboard/manage-departments/add-department" className="flex justify-between items-center">
                 Add Department
+              </Link>
+            </li>
+            
+          </ul>
+        </div>
+
+        {/* adminssion */}
+        {/* departments */}
+        <div className="dropdown w-full">
+          <label
+            tabIndex={0}
+            className="btn btn-ghost btn-block justify-between"
+          >
+            <span className="flex items-center gap-3">
+              <FcDepartment />
+              <span>Students</span>
+            </span>
+            <FaAngleDown />
+          </label>
+          <ul
+            tabIndex={0}
+            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-56"
+          >
+            <li>
+              <Link to="/admin-dashboard/student-register" className="flex justify-between items-center">
+                Student Register
+              </Link>
+            </li>
+            <li>
+              <Link to="/admin-dashboard/student-admission" className="flex justify-between items-center">
+                Student Admission
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/admin-dashboard/student-enrollment" className="flex justify-between items-center">
+                  Course Enrollments
               </Link>
             </li>
             

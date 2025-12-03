@@ -31,9 +31,9 @@ const MainSidebar = () => {
           <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-56">
             {/* Replace <a href> with <Link to> if using react-router-dom */}
             <li>
-              <a href="#" className="flex justify-between items-center">
+              <Link to="/teacher-login" className="flex justify-between items-center">
                 Teacher Login
-              </a>
+              </Link>
             </li>
             {/* Placeholder for more teacher items */}
             <li>

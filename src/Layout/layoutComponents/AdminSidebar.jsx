@@ -7,6 +7,8 @@ import { MdSchedule } from "react-icons/md";
 import { Link } from "react-router";
 import { AuthContext } from "../../providers/AuthProvider";
 import { FcDepartment } from "react-icons/fc";
+import { GiTeacher } from "react-icons/gi";
+import { PiStudent } from "react-icons/pi";
 
 const AdminSidebar = () => {
     const {user} = useContext(AuthContext);
@@ -29,7 +31,7 @@ const AdminSidebar = () => {
       role="navigation"
       aria-label="Main sidebar"
       // change min-h-screen -> h-screen and keep column layout so the bottom area stays fixed
-      className="w-64 h-screen bg-base-200 border-r p-4 flex flex-col"
+      className="w-64  h-screen bg-base-200 border-r p-4 flex flex-col"
     >
       {/*
         Make the main nav scrollable (flex-1 + overflow-y-auto).
@@ -54,7 +56,7 @@ const AdminSidebar = () => {
           >
             <span className="flex items-center gap-3">
               <MdSchedule />
-              <span>Routine</span>
+              <span>Manage Routines</span>
             </span>
             <FaAngleDown />
           </label>
@@ -84,7 +86,7 @@ const AdminSidebar = () => {
           >
             <span className="flex items-center gap-3">
               <FcDepartment />
-              <span>Departments</span>
+              <span>ManageDepartments</span>
             </span>
             <FaAngleDown />
           </label>
@@ -106,16 +108,16 @@ const AdminSidebar = () => {
           </ul>
         </div>
 
-        {/* adminssion */}
-        {/* departments */}
+        {/* admission */}
+        
         <div className="dropdown w-full">
           <label
             tabIndex={0}
             className="btn btn-ghost btn-block justify-between"
           >
             <span className="flex items-center gap-3">
-              <FcDepartment />
-              <span>Students</span>
+              <PiStudent></PiStudent>
+              <span>Manage Students</span>
             </span>
             <FaAngleDown />
           </label>
@@ -143,6 +145,39 @@ const AdminSidebar = () => {
           </ul>
         </div>
 
+        {/* Teacher */}
+        <div className="dropdown w-full">
+          <label
+            tabIndex={0}
+            className="btn btn-ghost btn-block justify-between"
+          >
+            <span className="flex items-center gap-3">
+              <GiTeacher />
+              <span>Manage Teachers</span>
+            </span>
+            <FaAngleDown />
+          </label>
+          <ul
+            tabIndex={0}
+            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-56"
+          >
+            <li>
+              <Link to="/admin-dashboard/manage-teachers" className="flex justify-between items-center">
+                Manage Teachers
+              </Link>
+            </li>
+            <li>
+              <Link to="/admin-dashboard/teacher-register" className="flex justify-between items-center">
+                Register Teacher
+              </Link>
+            </li>
+            <li>
+              <Link to="/admin-dashboard/create-teacher" className="flex justify-between items-center">
+                Create Teacher
+              </Link>
+            </li>
+          </ul>
+        </div>
         {/* Add other navigation items here */}
       </nav>
 

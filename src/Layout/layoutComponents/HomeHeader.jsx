@@ -7,7 +7,7 @@ const HomeHeader = ({
     logoAlt = 'St. Marys Girls High School And College logo',
 }) => {
     return (
-        <header role="banner" aria-label="School header" className="bg-base-100 border-b shadow-sm">
+        <header role="banner" aria-label="School header" className="w-full border-b shadow-sm">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 justify-between">
                     <div className="flex items-center gap-4">

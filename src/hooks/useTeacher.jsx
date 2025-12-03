@@ -7,7 +7,7 @@ const useTeacher = () => {
     const {data:teachers=[],isPending:loading, refetch} = useQuery({
         queryKey: ['teachers'],
         queryFn: async()=>{
-            const res = await axiosPublic.get('/Teachers/teacher-list');
+            const res = await axiosPublic.get('Teachers/all-info');
             // console.log(res.data);
             return res.data.data;
         }

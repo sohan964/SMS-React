@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router';
-import toast from 'react-hot-toast';
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
+import { useNavigate } from 'react-router';
+import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
-const RegisterStudent = () => {
+const RegisterTeacher = () => {
     const axiosPublic = useAxiosPublic();
     const [showPassword, setShowPassword] = useState(false);
 
@@ -40,8 +40,8 @@ const RegisterStudent = () => {
 
             if (response.data.success) {
                 toast.success('Signup successful! Redirecting to admission form...');
-                // Redirect to student admission page with email
-                navigate('/admin-dashboard/student-admission', { state: { email: data.email } });
+                // Redirect to create teacher  page with email
+                navigate('/admin-dashboard/create-teacher', { state: { email: data.email } });
             } else {
                 toast.error(response.data.message || 'Registration failed');
             }
@@ -54,7 +54,7 @@ const RegisterStudent = () => {
     return (
         <div className="min-h-screen bg-gray-50 py-8">
             <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Register Student</h2>
+                <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Register Teacher</h2>
                 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     {/* Full Name Field */}
@@ -175,9 +175,9 @@ const RegisterStudent = () => {
                                     <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                                     </svg>
-                                ) : (
+                                ) : ( 
                                     <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                        <circle cx="10" cy="10" r="8" stroke="currentColor" strokeWidth="1" fill="none" />
+                                        {/* <circle cx="10" cy="10" r="8" stroke="currentColor" strokeWidth="1" fill="none" /> */}
                                     </svg>
                                 )}
                                 At least one special character
@@ -202,7 +202,7 @@ const RegisterStudent = () => {
                         type="submit"
                         className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200 font-medium"
                     >
-                        Register Student
+                        Register Teacher
                     </button>
                 </form>
             </div>
@@ -210,4 +210,4 @@ const RegisterStudent = () => {
     );
 };
 
-export default RegisterStudent;
+export default RegisterTeacher;

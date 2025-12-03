@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../providers/AuthProvider';
 import { useNavigate } from 'react-router';
 import toast from 'react-hot-toast';
@@ -13,9 +13,11 @@ const AdminLogin = () => {
     const { signIn, setToken, user } = useContext(AuthContext);
     const navigate = useNavigate();
     
-        if(user?.email && user?.role[0] === 'Admin'){
-            navigate('/admin-dashboard');
-        }
+        useEffect(() => {
+                if (user?.role && user.role[0] === 'Admin') {
+                    navigate('/admin-dashboard');
+                }
+            }, [user, navigate]);
 
     // password validation rules:
     // - at least 8 characters

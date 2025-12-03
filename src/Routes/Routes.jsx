@@ -12,6 +12,13 @@ import TeacherRoutines from "../pages/routines/TeacherRoutines/TeacherRoutines";
 import CreateClassRoutine from "../pages/routines/CreateClassRoutine/CreateClassRoutine";
 import RegisterStudent from "../pages/admins/Admissions/RegisterStudent";
 import StudentAdmission from "../pages/admins/Admissions/StudentAdmission";
+import RegisterTeacher from "../pages/admins/ManageTeachers/RegisterTeacher";
+import CreateTeacher from "../pages/admins/ManageTeachers/CreateTeacher";
+import StudentEnrollment from "../pages/admins/Admissions/StudentEnrollment";
+import ManageTeachers from "../pages/admins/ManageTeachers/ManageTeachers";
+import TeacherHome from "../pages/teachers/TeacherHome/TeacherHome";
+import TeacherDashboard from "../Layout/TeacherDashboard";
+import TeacherLogin from "../pages/teachers/TeacherLogin/TeacherLogin";
 
 export const router = createBrowserRouter([
     {
@@ -25,6 +32,10 @@ export const router = createBrowserRouter([
             {
                 path :"/admin-login",
                 element: <AdminLogin></AdminLogin>
+            },
+            {
+                path :"/teacher-login",
+                element: <TeacherLogin></TeacherLogin>
             }
         ]
     },
@@ -62,8 +73,36 @@ export const router = createBrowserRouter([
                 element: <RegisterStudent></RegisterStudent>
             },
             {
+                path: "student-enrollment",
+                element: <StudentEnrollment></StudentEnrollment>
+            },
+            
+            {
                 path: "student-admission",
                 element: <StudentAdmission></StudentAdmission>
+            },
+            {
+                path: "manage-teachers",
+                element: <ManageTeachers></ManageTeachers>
+            },
+            {
+                path: "teacher-register",
+                element: <RegisterTeacher></RegisterTeacher>
+            },
+            {
+                path: "create-teacher",
+                element: <CreateTeacher></CreateTeacher>
+            },
+            
+        ]
+    },
+    {
+        path: "/teacher-dashboard",
+        element: <TeacherDashboard></TeacherDashboard>,
+        children: [
+            {
+                path: "",
+                element:<TeacherHome></TeacherHome>
             }
         ]
     }

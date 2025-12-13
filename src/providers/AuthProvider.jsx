@@ -28,8 +28,8 @@ const AuthProvider = ({children}) =>{
                 }
             })
             .then(res =>{
-                console.log("Current user info:", res.data.data);
-                setUser(res.data.data);
+                console.log("Current user info:", res?.data?.data);
+                setUser(res?.data?.data);
                 setLoading(false);
             })
             .catch(err => {

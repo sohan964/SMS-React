@@ -56,7 +56,7 @@ const MainSidebar = () => {
           </label>
           <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-56">
             <li>
-              <a href="#" className="flex justify-between items-center">
+              <a href="/student-login" className="flex justify-between items-center">
                 Student Login
               </a>
             </li>

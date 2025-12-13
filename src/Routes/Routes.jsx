@@ -19,6 +19,16 @@ import ManageTeachers from "../pages/admins/ManageTeachers/ManageTeachers";
 import TeacherHome from "../pages/teachers/TeacherHome/TeacherHome";
 import TeacherDashboard from "../Layout/TeacherDashboard";
 import TeacherLogin from "../pages/teachers/TeacherLogin/TeacherLogin";
+import ManageAttendances from "../pages/teachers/ManageAttendances/ManageAttendances";
+import TakeAttendances from "../pages/teachers/ManageAttendances/TakeAttendances";
+import AttendanceSummary from "../pages/teachers/ManageAttendances/AttendanceSummary";
+import AttendanceDetails from "../pages/teachers/ManageAttendances/AttendanceDetails";
+import ManageExams from "../pages/admins/ManageExams/ManageExams";
+import AddExamSession from "../pages/admins/ManageExams/AddExamSession";
+import AddResults from "../pages/teachers/ManageResults/AddResults";
+import StudentLogin from "../pages/students/StudentLogin/StudentLogin";
+import StudentDashboard from "../Layout/StudentDashboard";
+import StudentHome from "../pages/students/StudentHome/StudentHome";
 
 export const router = createBrowserRouter([
     {
@@ -36,6 +46,10 @@ export const router = createBrowserRouter([
             {
                 path :"/teacher-login",
                 element: <TeacherLogin></TeacherLogin>
+            },
+            {
+                path: "/student-login",
+                element: <StudentLogin></StudentLogin>
             }
         ]
     },
@@ -93,7 +107,17 @@ export const router = createBrowserRouter([
                 path: "create-teacher",
                 element: <CreateTeacher></CreateTeacher>
             },
+            //manage exams route can be added here
+            {
+                path: "manage-exams",
+                element: <ManageExams></ManageExams>
+            },
+            {
+                path: "create-exam-session",
+                element: <AddExamSession></AddExamSession>
+            },
             
+
         ]
     },
     {
@@ -103,6 +127,36 @@ export const router = createBrowserRouter([
             {
                 path: "",
                 element:<TeacherHome></TeacherHome>
+            },
+            {
+                path: "manage-attendances",
+                element: <ManageAttendances></ManageAttendances>
+            },
+            {
+                path: "manage-attendances/take-attendance",
+                element: <TakeAttendances></TakeAttendances>
+            },
+            {
+                path: "manage-attendances/attendance-summary",
+                element: <AttendanceSummary></AttendanceSummary>
+            },
+            {
+                path: "manage-attendances/attendance-details",
+                element: <AttendanceDetails></AttendanceDetails>
+            },
+            {
+                path: "manage-results/add-results",
+                element: <AddResults></AddResults>
+            }
+        ]
+    },
+    {
+        path: "/student-dashboard",
+        element: <StudentDashboard></StudentDashboard>,
+        children: [
+            {
+                path: "",
+                element: <StudentHome></StudentHome>
             }
         ]
     }

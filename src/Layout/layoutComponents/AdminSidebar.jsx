@@ -8,7 +8,7 @@ import { Link } from "react-router";
 import { AuthContext } from "../../providers/AuthProvider";
 import { FcDepartment } from "react-icons/fc";
 import { GiTeacher } from "react-icons/gi";
-import { PiStudent } from "react-icons/pi";
+import { PiExam, PiStudent } from "react-icons/pi";
 
 const AdminSidebar = () => {
     const {user} = useContext(AuthContext);
@@ -174,6 +174,39 @@ const AdminSidebar = () => {
             <li>
               <Link to="/admin-dashboard/create-teacher" className="flex justify-between items-center">
                 Create Teacher
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div className="dropdown w-full">
+          <label
+            tabIndex={0}
+            className="btn btn-ghost btn-block justify-between"
+          >
+            <span className="flex items-center gap-3">
+              <PiExam />
+              <span>Manage Exams</span>
+            </span>
+            <FaAngleDown />
+          </label>
+          <ul
+            tabIndex={0}
+            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-56"
+          >
+            <li>
+              <Link to="/admin-dashboard/manage-exams" className="flex justify-between items-center">
+                Manage Exams
+              </Link>
+            </li>
+            <li>
+              <Link to="/admin-dashboard/create-exam-session" className="flex justify-between items-center">
+                Create Exam-Session
+              </Link>
+            </li>
+            <li>
+              <Link to="/admin-dashboard/create-teacher" className="flex justify-between items-center">
+                Schedule Exam
               </Link>
             </li>
           </ul>

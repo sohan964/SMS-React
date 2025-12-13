@@ -1,9 +1,17 @@
 import React, { useContext } from "react";
-import { FaAngleDown, FaChalkboardTeacher, FaHome, FaUser } from "react-icons/fa";
+import {
+  FaAngleDown,
+  FaChalkboardTeacher,
+  FaHome,
+  FaUser,
+} from "react-icons/fa";
 import { AuthContext } from "../../providers/AuthProvider";
+import { Link } from "react-router";
+import useTeacherData from "../../hooks/useTeacherData";
 
 const TeacherSidebar = () => {
-    const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const [teacherData] = useTeacherData(user?.email);
   return (
     <aside
       role="navigation"
@@ -39,13 +47,23 @@ const TeacherSidebar = () => {
           >
             {/* Replace <a href> with <Link to> if using react-router-dom */}
             <li>
-              <a href="#" className="flex justify-between items-center"></a>
+              <Link
+                to="/teacher-dashboard/manage-attendances"
+                className="flex justify-between items-center"
+              >
+                Manage Attendances
+              </Link>
             </li>
             {/* Placeholder for more teacher items */}
             <li>
-              <a href="#" className="flex justify-between items-center">
-                Manage Profile
-              </a>
+              <Link to="/teacher-dashboard/manage-attendances/take-attendance" className="flex justify-between items-center">
+                Take Attendance
+              </Link>
+            </li>
+            <li>
+              <Link to="/teacher-dashboard/manage-attendances/attendance-summary" className="flex justify-between items-center">
+                Attendance Summary
+              </Link>
             </li>
             {/* Add more teacher options as needed */}
           </ul>
@@ -59,20 +77,26 @@ const TeacherSidebar = () => {
           You can add more links, quick actions, or tools here later.
         </div>
       </nav>
-      
+
       {/* User info section at the bottom */}
       <div className="absolute bottom-20 left-0 right-0 p-4 border-t bg-base-200">
         <div className="flex items-center gap-3">
-          <div className="avatar placeholder">
-            <div className="bg-neutral text-neutral-content rounded-full w-12">
-              <span className="text-xl">
-                {user?.name ? user.name.charAt(0).toUpperCase() : <FaUser />}
-              </span>
-            </div>
+          <div className="avatar">
+            {teacherData?.photo ? (
+              <div className="w-12 rounded-full">
+                <img src={teacherData.photo} alt={`${teacherData.first_name} ${teacherData.last_name}`} />
+              </div>
+            ) : (
+              <div className="bg-neutral text-neutral-content rounded-full w-12 placeholder">
+                <span className="text-xl">
+                  {user?.name ? user.name.charAt(0).toUpperCase() : <FaUser />}
+                </span>
+              </div>
+            )}
           </div>
           <div className="flex-1">
             <p className="text-sm font-semibold text-base-content">
-              {user?.fullName || "User"}
+              {teacherData ? `${teacherData.first_name} ${teacherData.last_name}` : (user?.fullName || "User")}
             </p>
             <p className="text-xs text-base-content/70">
               {user?.email || "No email"}

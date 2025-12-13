@@ -1,17 +1,14 @@
 import React from "react";
 import HomeHeader from "./layoutComponents/HomeHeader";
+import StudentSidebar from "./layoutComponents/StudentSidebar";
 import { Outlet } from "react-router";
-import TeacherSidebar from "./layoutComponents/TeacherSidebar";
-import { AuthContext } from "../providers/AuthProvider";
 
-
-const TeacherDashboard = () => {
- 
+const StudentDashboard = () => {
   return (
     <>
-      <HomeHeader />
+     <HomeHeader></HomeHeader>
       <div className="flex">
-        <TeacherSidebar></TeacherSidebar>
+        <StudentSidebar></StudentSidebar>
         <div className="flex-1 p-6">
           <Outlet></Outlet>
         </div>
@@ -20,4 +17,4 @@ const TeacherDashboard = () => {
   );
 };
 
-export default TeacherDashboard;
+export default StudentDashboard;

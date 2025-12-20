@@ -139,10 +139,17 @@ const CreateClassRoutine = () => {
         selectedClass ? section.class_id === parseInt(selectedClass) : true
     );
 
-    // Filter subjects based on selected class
-    // Note: Based on the sample data, subjects don't have class_id, so we'll show all subjects
-    // This can be adjusted based on your actual data structure
-    const filteredSubjects = subjects;
+    // Filter subjects based on selected section's department and common department (department_id = 5)
+    const filteredSubjects = React.useMemo(() => {
+        if (!selectedSection || !subjects || !sections) return [];
+        
+        const selectedSectionData = sections.find(s => s.section_id === parseInt(selectedSection));
+        if (!selectedSectionData) return [];
+        
+        return subjects.filter(subject =>
+            subject.department_id === 5 || subject.department_id === selectedSectionData.department_id
+        );
+    }, [selectedSection, subjects, sections]);
 
     // Reset dependent fields when class changes
     useEffect(() => {
@@ -156,6 +163,16 @@ const CreateClassRoutine = () => {
             }, 0);
         }
     }, [selectedClass]);
+
+    // Reset subject when section changes
+    useEffect(() => {
+        if (selectedSection) {
+            setTimeout(() => {
+                setSelectedSubject('');
+                setSubjectSearch('');
+            }, 0);
+        }
+    }, [selectedSection]);
 
     // Handle form submission
     const handleSubmit = async (e) => {

@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import HomeHeader from "./layoutComponents/HomeHeader";
-import { Outlet } from "react-router";
+import { Outlet, useNavigate } from "react-router";
 import TeacherSidebar from "./layoutComponents/TeacherSidebar";
 import { AuthContext } from "../providers/AuthProvider";
 
 
 const TeacherDashboard = () => {
+  const { user, logout } = useContext(AuthContext);
+    const navigate = useNavigate();
+    
+        useEffect(() => {
+            if (user?.role && user?.role[0] !== 'Teacher') {
+                logout();
+                navigate('/');
+            }
+        }, [user, logout, navigate]);
  
   return (
     <>

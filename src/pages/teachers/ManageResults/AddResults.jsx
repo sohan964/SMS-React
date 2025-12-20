@@ -102,6 +102,19 @@ const AddResults = () => {
         if (yearId && classId && sectionId && subjectId) {
             const fetchExamSessions = async () => {
                 try {
+                    // First verify that this teacher is assigned to teach this subject for this class and section
+                    const isTeacherAssigned = teacherRoutineData.some(routine =>
+                        routine.class_id === parseInt(classId) &&
+                        routine.section_id === parseInt(sectionId) &&
+                        routine.subject_id === parseInt(subjectId)
+                    );
+
+                    if (!isTeacherAssigned) {
+                        toast.error('You are not assigned to teach this subject for the selected class and section');
+                        setExamSessions([]);
+                        return;
+                    }
+
                     const response = await axiosSecure.get(
                         `/Exam/get-exam-sessions?year_id=${yearId}&subject_id=${subjectId}&class_id=${classId}&section_id=${sectionId}`
                     );
@@ -116,7 +129,7 @@ const AddResults = () => {
         } else {
             setExamSessions([]);
         }
-    }, [yearId, classId, sectionId, subjectId, axiosSecure]);
+    }, [yearId, classId, sectionId, subjectId, axiosSecure, teacherRoutineData]);
 
     // Check if result exists for a specific enrollment
     const checkExistingResult = async (examSessionId, enrollmentId) => {

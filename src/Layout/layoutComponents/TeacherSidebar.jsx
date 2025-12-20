@@ -3,6 +3,7 @@ import {
   FaAngleDown,
   FaChalkboardTeacher,
   FaHome,
+  FaSignOutAlt,
   FaUser,
 } from "react-icons/fa";
 import { AuthContext } from "../../providers/AuthProvider";
@@ -10,7 +11,7 @@ import { Link } from "react-router";
 import useTeacherData from "../../hooks/useTeacherData";
 
 const TeacherSidebar = () => {
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const [teacherData] = useTeacherData(user?.email);
   return (
     <aside
@@ -69,6 +70,38 @@ const TeacherSidebar = () => {
           </ul>
         </div>
 
+
+
+        <div className="dropdown w-full">
+          <label
+            tabIndex={0}
+            className="btn btn-ghost btn-block justify-between"
+          >
+            <span className="flex items-center gap-3">
+              <FaChalkboardTeacher />
+              <span>Manage Result</span>
+            </span>
+            <FaAngleDown />
+          </label>
+          <ul
+            tabIndex={0}
+            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-56"
+          >
+            {/* Replace <a href> with <Link to> if using react-router-dom */}
+            <li>
+              <Link
+                to="/teacher-dashboard/manage-results/add-results"
+                className="flex justify-between items-center"
+              >
+                Submit Result
+              </Link>
+            </li>
+            {/* Placeholder for more teacher items */}
+            
+            {/* Add more teacher options as needed */}
+          </ul>
+        </div>
+
         {/* Divider for visual separation */}
         <div className="divider my-2"></div>
 
@@ -105,6 +138,14 @@ const TeacherSidebar = () => {
               {user?.role || "Teacher"}
             </p>
           </div>
+          <button
+            onClick={logout}
+            className="btn btn-sm btn-circle btn-ghost hover:bg-error/20 hover:text-error transition-all duration-200 group"
+            aria-label="Logout"
+            title="Logout"
+          >
+            <FaSignOutAlt className="w-4 h-4 group-hover:scale-110 transition-transform" />
+          </button>
         </div>
       </div>
     </aside>

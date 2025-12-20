@@ -29,6 +29,11 @@ import AddResults from "../pages/teachers/ManageResults/AddResults";
 import StudentLogin from "../pages/students/StudentLogin/StudentLogin";
 import StudentDashboard from "../Layout/StudentDashboard";
 import StudentHome from "../pages/students/StudentHome/StudentHome";
+import StudentRoutine from "../pages/students/StudentRoutine/StudentRoutine";
+import StudentResult from "../pages/students/StudentResult/StudentResult";
+import AdminRoutes from "./AdminRoutes";
+import StudentRoutes from "./StudentRoutes";
+import TeacherRoutes from "./TeacherRoutes";
 
 export const router = createBrowserRouter([
     {
@@ -55,7 +60,7 @@ export const router = createBrowserRouter([
     },
     {
         path: "/admin-dashboard",
-        element: <AdminDashboard></AdminDashboard>,
+        element: <AdminRoutes><AdminDashboard></AdminDashboard></AdminRoutes>,
         children: [
             {
                 path : "",
@@ -122,7 +127,7 @@ export const router = createBrowserRouter([
     },
     {
         path: "/teacher-dashboard",
-        element: <TeacherDashboard></TeacherDashboard>,
+        element: <TeacherRoutes><TeacherDashboard></TeacherDashboard></TeacherRoutes>,
         children: [
             {
                 path: "",
@@ -152,11 +157,19 @@ export const router = createBrowserRouter([
     },
     {
         path: "/student-dashboard",
-        element: <StudentDashboard></StudentDashboard>,
+        element: <StudentRoutes><StudentDashboard></StudentDashboard></StudentRoutes>,
         children: [
             {
                 path: "",
                 element: <StudentHome></StudentHome>
+            },
+            {
+                path: "student-routine",
+                element: <StudentRoutine></StudentRoutine>
+            },
+            {
+                path: "student-result",
+                element: <StudentResult></StudentResult>
             }
         ]
     }

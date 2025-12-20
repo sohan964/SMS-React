@@ -72,7 +72,7 @@ const AddExamSession = () => {
             // Reset form after successful submission
             reset();
             toast.success('Exam session added successfully!');
-            navigate('/admins-dashboard/manage-exams');
+            navigate('/admin-dashboard/manage-exams');
         } catch (error) {
             console.error('Error adding exam session:', error);
             toast.error('Failed to add exam session. Please try again.');

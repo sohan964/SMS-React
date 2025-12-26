@@ -56,9 +56,9 @@ const MainSidebar = () => {
           </label>
           <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-56">
             <li>
-              <a href="/student-login" className="flex justify-between items-center">
+              <Link to="/student-login" className="flex justify-between items-center">
                 Student Login
-              </a>
+              </Link>
             </li>
             <li>
               <a href="#" className="flex justify-between items-center">
@@ -102,10 +102,10 @@ const MainSidebar = () => {
           </ul>
         </div>
         {/* About us button */}
-        <a href="#" className="btn btn-ghost btn-block justify-start gap-3 text-base-content">
+        <Link to="/about-us" className="btn btn-ghost btn-block justify-start gap-3 text-base-content">
           <MdOutlineRoundaboutRight />
           <span>About Us</span>
-        </a>
+        </Link>
 
         {/* Divider for visual separation */}
         <div className="divider my-2"></div>

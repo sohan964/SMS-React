@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { FaAngleDown, FaChalkboardTeacher, FaHome, FaSignOutAlt } from "react-icons/fa";
 import { Link } from "react-router";
 import useStudentData from "../../hooks/useStudentData";
-import { MdSchedule } from "react-icons/md";
+import { MdOutlineRoundaboutRight, MdSchedule } from "react-icons/md";
 import { AuthContext } from "../../providers/AuthProvider";
 
 const StudentSidebar = () => {
@@ -75,6 +75,22 @@ const StudentSidebar = () => {
             </li>
           </ul>
         </div>
+
+        <div className="divider my-2"></div>
+                <div>
+                  <Link
+                    to="/"
+                  className="btn btn-ghost btn-block justify-start gap-3 text-base-content"
+                  aria-label="Home"
+                >
+                  <FaHome></FaHome>
+                  <span>Back to Home</span>
+                </Link>
+                <Link to="/about-us" className="btn btn-ghost btn-block justify-start gap-3 text-base-content">
+                          <MdOutlineRoundaboutRight />
+                          <span>About Us</span>
+                        </Link>
+                </div>
       </nav>
 
       {/* User info at the bottom (fixed) */}

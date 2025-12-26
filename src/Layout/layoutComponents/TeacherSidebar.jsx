@@ -9,6 +9,7 @@ import {
 import { AuthContext } from "../../providers/AuthProvider";
 import { Link } from "react-router";
 import useTeacherData from "../../hooks/useTeacherData";
+import { MdOutlineRoundaboutRight } from "react-icons/md";
 
 const TeacherSidebar = () => {
   const { user, logout } = useContext(AuthContext);
@@ -22,12 +23,12 @@ const TeacherSidebar = () => {
       <nav className="space-y-3">
         {/* Home button */}
         <a
-          href="/"
+          href="/teacher-dashboard"
           className="btn btn-ghost btn-block justify-start gap-3 text-base-content"
           aria-label="Home"
         >
           <FaHome></FaHome>
-          <span>Home</span>
+          <span>Teacher Home</span>
         </a>
 
         {/* Attendance dropdown */}
@@ -104,7 +105,20 @@ const TeacherSidebar = () => {
 
         {/* Divider for visual separation */}
         <div className="divider my-2"></div>
-
+        <div>
+          <Link
+            to="/"
+          className="btn btn-ghost btn-block justify-start gap-3 text-base-content"
+          aria-label="Home"
+        >
+          <FaHome></FaHome>
+          <span>Back to Home</span>
+        </Link>
+        <Link to="/about-us" className="btn btn-ghost btn-block justify-start gap-3 text-base-content">
+                  <MdOutlineRoundaboutRight />
+                  <span>About Us</span>
+                </Link>
+        </div>
         {/* Placeholder area for future items */}
         <div className="text-sm text-base-content/70 px-2">
           You can add more links, quick actions, or tools here later.

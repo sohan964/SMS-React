@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import Main from "../Layout/Main";
 import Home from "../pages/Home/Home";
+import AboutUs from "../pages/AboutUs/AboutUs";
 
 import AdminHome from "../pages/admins/AdminHome/AdminHome";
 import AdminDashboard from "../Layout/AdminDashboard";
@@ -34,6 +35,11 @@ import StudentResult from "../pages/students/StudentResult/StudentResult";
 import AdminRoutes from "./AdminRoutes";
 import StudentRoutes from "./StudentRoutes";
 import TeacherRoutes from "./TeacherRoutes";
+import ExamSessions from "../pages/admins/ManageExams/ExamSessions";
+import ManageSubjects from "../pages/admins/ManageSubjects/ManageSubjects";
+import AddSubject from "../pages/admins/ManageSubjects/AddSubject";
+import ManageClasses from "../pages/admins/ManageClasses/ManageClasses";
+import AddClassSubjects from "../pages/admins/ManageClasses/AddClassSubjects";
 
 export const router = createBrowserRouter([
     {
@@ -43,6 +49,10 @@ export const router = createBrowserRouter([
             {
                 path: "/",
                 element: <Home></Home>
+            },
+            {
+                path: "/about-us",
+                element: <AboutUs></AboutUs>
             },
             {
                 path :"/admin-login",
@@ -118,9 +128,30 @@ export const router = createBrowserRouter([
                 element: <ManageExams></ManageExams>
             },
             {
-                path: "create-exam-session",
+                path: "manage-exams/create-exam-session",
                 element: <AddExamSession></AddExamSession>
             },
+            {
+                path: "manage-exams/exam-sessions",
+                element: <ExamSessions></ExamSessions>
+            },
+            //manage subjects
+            {
+                path: "manage-subjects",
+                element: <ManageSubjects></ManageSubjects>
+            },
+            {
+                path: "manage-subjects/add-subject",
+                element: <AddSubject></AddSubject>
+            },
+            {
+                path: "manage-classes",
+                element: <ManageClasses></ManageClasses>
+            },
+            {
+                path: "manage-classes/add-class-subjects",
+                element: <AddClassSubjects></AddClassSubjects>
+            }
             
 
         ]

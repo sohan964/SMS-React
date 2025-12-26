@@ -199,18 +199,76 @@ const AdminSidebar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/admin-dashboard/create-exam-session" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
+              <Link to="/admin-dashboard/manage-exams/create-exam-session" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
                 Create Exam-Session
               </Link>
             </li>
             <li>
-              <Link to="/admin-dashboard/create-exam" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
-                Schedule Exam
+              <Link to="/admin-dashboard/manage-exams/exam-sessions" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
+                Exam Schedule
               </Link>
             </li>
           </ul>
         </div>
         {/* Add other navigation items here */}
+
+        <div className="dropdown w-full">
+          <label
+            tabIndex={0}
+            className="btn btn-ghost btn-block justify-between hover:bg-primary/10 transition-colors duration-200 rounded-lg"
+          >
+            <span className="flex items-center gap-3">
+              <GiTeacher className="text-primary" />
+              <span className="font-medium">Manage Subjects</span>
+            </span>
+            <FaAngleDown className="text-primary/70" />
+          </label>
+          <ul
+            tabIndex={0}
+            className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-56 z-20"
+          >
+            <li>
+              <Link to="/admin-dashboard/manage-subjects" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
+                Manage Subjects
+              </Link>
+            </li>
+            <li>
+              <Link to="/admin-dashboard/manage-subjects/add-subject" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
+                Add Subject
+              </Link>
+            </li>
+            
+          </ul>
+        </div>
+
+        <div className="dropdown w-full">
+          <label
+            tabIndex={0}
+            className="btn btn-ghost btn-block justify-between hover:bg-primary/10 transition-colors duration-200 rounded-lg"
+          >
+            <span className="flex items-center gap-3">
+              <GiTeacher className="text-primary" />
+              <span className="font-medium">Manage Classes</span>
+            </span>
+            <FaAngleDown className="text-primary/70" />
+          </label>
+          <ul
+            tabIndex={0}
+            className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-56 z-20"
+          >
+            <li>
+              <Link to="/admin-dashboard/manage-classes" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
+                Manage Classes
+              </Link>
+            </li>
+            <li>
+              <Link to="/admin-dashboard/manage-classes/add-class-subjects" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
+                Add Subjects to Class
+              </Link>
+            </li>
+            
+          </ul>
+        </div>
       </nav>
 
       {/* User info at the bottom (fixed) */}

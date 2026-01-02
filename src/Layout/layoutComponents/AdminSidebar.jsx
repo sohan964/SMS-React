@@ -39,7 +39,7 @@ const AdminSidebar = () => {
       <nav className="flex-1 overflow-y-auto pr-2 space-y-2 pb-6">
         {/* Home button */}
         <a
-          href="/"
+          href="/admin-dashboard"
           className="btn btn-ghost btn-block justify-start gap-3 text-base-content hover:bg-primary/10 transition-colors duration-200 rounded-lg"
           aria-label="Home"
         >
@@ -264,6 +264,35 @@ const AdminSidebar = () => {
             <li>
               <Link to="/admin-dashboard/manage-classes/add-class-subjects" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
                 Add Subjects to Class
+              </Link>
+            </li>
+            
+          </ul>
+        </div>
+
+        <div className="dropdown w-full">
+          <label
+            tabIndex={0}
+            className="btn btn-ghost btn-block justify-between hover:bg-primary/10 transition-colors duration-200 rounded-lg"
+          >
+            <span className="flex items-center gap-3">
+              <GiTeacher className="text-primary" />
+              <span className="font-medium">Manage Notices</span>
+            </span>
+            <FaAngleDown className="text-primary/70" />
+          </label>
+          <ul
+            tabIndex={0}
+            className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-56 z-20"
+          >
+            <li>
+              <Link to="/admin-dashboard/notices" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
+                Notices
+              </Link>
+            </li>
+            <li>
+              <Link to="/admin-dashboard/notices/add-notices" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
+                Create Notices
               </Link>
             </li>
             

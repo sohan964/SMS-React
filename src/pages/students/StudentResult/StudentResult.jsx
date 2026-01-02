@@ -1,379 +1,256 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import useGradeList from '../../../hooks/useGradeList';
 import useStudentData from '../../../hooks/useStudentData';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
-import { FaDownload } from 'react-icons/fa';
+import { useQuery } from '@tanstack/react-query';
+import { FaPrint } from 'react-icons/fa';
+import './StudentResult.css';
 
 const StudentResult = () => {
-    const [studentData, isStudentLoading] = useStudentData();
-    const [resultData, setResultData] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState('');
+    const [, loading] = useGradeList();
+    const [studentData] = useStudentData();
     const axiosSecure = useAxiosSecure();
+    const [selectedSubject, setSelectedSubject] = useState(null);
+    
+    // Calculate GPA and result status from subject results
+    const calculateGpaAndStatus = (results) => {
+        // console.log('Calculating GPA and status for results:', results);
+        if (results.length === 0) return { gpa: '0.00', status: 'PASSED' };
+        
+        // Calculate GPA
+        const totalGradePoints = results.reduce((sum, subject) => sum + subject.grade_point, 0);
+        const calculatedGpa = (totalGradePoints / results.length).toFixed(2);
+        
+        // Determine result status:
+        // If any subject has grade_name "F", the result is FAILED
+        // If no subjects have grade_name "F", the result is PASSED
+        const hasFailed = results.some(subject => subject.grade_name === 'F');
+        const status = hasFailed ? 'FAILED' : 'PASSED';
+        return { gpa: calculatedGpa, resultStatus: status};
+    };
+   
 
-    useEffect(() => {
-        const fetchResultData = async () => {
-            if (!studentData?.current_enrollment_id) {
-                setError('Student enrollment ID not found');
-                return;
-            }
+    // Fetch subject results
+    const { data: subjectResults = [], isLoading: resultsLoading } = useQuery({
+        queryKey: ['subjectResults', studentData?.current_enrollment_id],
+        queryFn: async () => {
+            if (!studentData?.current_enrollment_id) return [];
+            const res = await axiosSecure.get(`Results/get-subjects-results/${studentData.current_enrollment_id}`);
+            return res.data.data;
+        },
+        enabled: !!studentData?.current_enrollment_id
+    });
 
-            setIsLoading(true);
-            setError('');
+    // Fetch detailed results for a specific subject
+    const { data: detailedResults = [], isLoading: detailsLoading } = useQuery({
+        queryKey: ['detailedResults', selectedSubject?.subject_id, studentData?.current_enrollment_id],
+        queryFn: async () => {
+            if (!selectedSubject?.subject_id || !studentData?.current_enrollment_id) return [];
+            const res = await axiosSecure.get(`Results/get-details-result/${studentData.current_enrollment_id}/${selectedSubject.subject_id}`);
+            return res.data.data;
+        },
+        enabled: !!selectedSubject?.subject_id && !!studentData?.current_enrollment_id
+    });
 
-            try {
-                const response = await axiosSecure.get(`/Results/get-final-result/${studentData.current_enrollment_id}`);
-                console.log('Result data:', response.data);
-                setResultData(response.data.data);
-            } catch (err) {
-                setError('Failed to fetch result data. Please try again.');
-                console.error('Error fetching result data:', err);
-            } finally {
-                setIsLoading(false);
-            }
-        };
+    // Calculate GPA and result status
+    const { gpa, resultStatus } = calculateGpaAndStatus(subjectResults);
 
-        fetchResultData();
-    }, [studentData, axiosSecure]);
-
-    const getGradeStyle = (grade) => {
-        switch (grade?.toUpperCase()) {
-            case 'A+':
-            case 'A':
-                return { color: '#059669', fontWeight: 'bold' };
-            case 'A-':
-            case 'B+':
-                return { color: '#2563eb', fontWeight: '600' };
-            case 'B':
-            case 'B-':
-                return { color: '#d97706', fontWeight: '600' };
-            case 'C':
-            case 'D':
-                return { color: '#ea580c', fontWeight: '600' };
-            case 'F':
-                return { color: '#dc2626', fontWeight: 'bold' };
-            default:
-                return { color: '#374151' };
-        }
+    // Format date of birth
+    const formatDate = (dateString) => {
+        if (!dateString) return 'N/A';
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
     };
 
+    // Format gender
+    const formatGender = (gender) => {
+        return gender === 'M' ? 'Male' : gender === 'F' ? 'Female' : gender;
+    };
+
+    // Print function
     const handlePrint = () => {
-        if (!resultData) {
-            alert('Result data not available for printing');
-            return;
-        }
-        
-        const printWindow = window.open('', '_blank');
-        
-        // Create student info HTML
-        const studentInfoHTML = `
-            <div style="margin-bottom: 32px;">
-                <h3 style="font-size: 20px; font-weight: 600; text-align: center; margin-bottom: 16px;">Academic Result Sheet</h3>
-                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 24px;">
-                    <div>
-                        <p style="font-size: 14px; color: #6b7280;">Student Number</p>
-                        <p style="font-weight: 600;">${resultData.student_number}</p>
-                    </div>
-                    <div>
-                        <p style="font-size: 14px; color: #6b7280;">Student Name</p>
-                        <p style="font-weight: 600;">${resultData.student_name}</p>
-                    </div>
-                    <div>
-                        <p style="font-size: 14px; color: #6b7280;">Class</p>
-                        <p style="font-weight: 600;">${resultData.class_name}</p>
-                    </div>
-                    <div>
-                        <p style="font-size: 14px; color: #6b7280;">Section</p>
-                        <p style="font-weight: 600;">${resultData.section_name}</p>
-                    </div>
-                    <div>
-                        <p style="font-size: 14px; color: #6b7280;">Academic Year</p>
-                        <p style="font-weight: 600;">${resultData.year_label}</p>
-                    </div>
-                    <div>
-                        <p style="font-size: 14px; color: #6b7280;">Enrollment ID</p>
-                        <p style="font-weight: 600;">${resultData.enrollment_id}</p>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        // Create subject results table HTML
-        const subjectTableHTML = `
-            <div style="margin-bottom: 32px;">
-                <h4 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">Subject-wise Results</h4>
-                <table style="width: 100%; border-collapse: collapse;">
-                    <thead style="background-color: #f9fafb;">
-                        <tr>
-                            <th style="border: 1px solid #000; padding: 12px 16px; text-align: left; font-size: 12px; font-weight: 500; color: #6b7280; text-transform: uppercase;">Subject Name</th>
-                            <th style="border: 1px solid #000; padding: 12px 16px; text-align: left; font-size: 12px; font-weight: 500; color: #6b7280; text-transform: uppercase;">Subject Code</th>
-                            <th style="border: 1px solid #000; padding: 12px 16px; text-align: center; font-size: 12px; font-weight: 500; color: #6b7280; text-transform: uppercase;">Credit Hours</th>
-                            <th style="border: 1px solid #000; padding: 12px 16px; text-align: center; font-size: 12px; font-weight: 500; color: #6b7280; text-transform: uppercase;">Total Marks</th>
-                            <th style="border: 1px solid #000; padding: 12px 16px; text-align: center; font-size: 12px; font-weight: 500; color: #6b7280; text-transform: uppercase;">Max Marks</th>
-                            <th style="border: 1px solid #000; padding: 12px 16px; text-align: center; font-size: 12px; font-weight: 500; color: #6b7280; text-transform: uppercase;">Percentage</th>
-                            <th style="border: 1px solid #000; padding: 12px 16px; text-align: center; font-size: 12px; font-weight: 500; color: #6b7280; text-transform: uppercase;">Grade</th>
-                            <th style="border: 1px solid #000; padding: 12px 16px; text-align: center; font-size: 12px; font-weight: 500; color: #6b7280; text-transform: uppercase;">Grade Point</th>
-                            <th style="border: 1px solid #000; padding: 12px 16px; text-align: center; font-size: 12px; font-weight: 500; color: #6b7280; text-transform: uppercase;">Weighted GP</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${resultData.eachSubjectResultDtos.map((subject) => `
-                            <tr style="border-bottom: 1px solid #e5e7eb;">
-                                <td style="border: 1px solid #000; padding: 12px 16px; font-size: 14px; color: #111827;">${subject.subject_name}</td>
-                                <td style="border: 1px solid #000; padding: 12px 16px; font-size: 14px; color: #111827;">${subject.subject_code}</td>
-                                <td style="border: 1px solid #000; padding: 12px 16px; font-size: 14px; text-align: center; color: #111827;">${subject.credit_hours}</td>
-                                <td style="border: 1px solid #000; padding: 12px 16px; font-size: 14px; text-align: center; color: #111827;">${subject.total_marks}</td>
-                                <td style="border: 1px solid #000; padding: 12px 16px; font-size: 14px; text-align: center; color: #111827;">${subject.max_marks}</td>
-                                <td style="border: 1px solid #000; padding: 12px 16px; font-size: 14px; text-align: center; color: #111827;">${subject.percentage.toFixed(1)}%</td>
-                                <td style="border: 1px solid #000; padding: 12px 16px; font-size: 14px; text-align: center; font-weight: bold; color: ${getGradeStyle(subject.grade_name).color};">${subject.grade_name}</td>
-                                <td style="border: 1px solid #000; padding: 12px 16px; font-size: 14px; text-align: center; color: #111827;">${subject.grade_point}</td>
-                                <td style="border: 1px solid #000; padding: 12px 16px; font-size: 14px; text-align: center; color: #111827;">${subject.weighted_grade_point}</td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            </div>
-        `;
-        
-        // Create summary HTML
-        const summaryHTML = `
-            <div style="border-top: 1px solid #e5e7eb; padding-top: 24px;">
-                <h4 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">Result Summary</h4>
-                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
-                    <div style="text-align: center;">
-                        <p style="font-size: 14px; color: #6b7280;">Total Credit Hours</p>
-                        <p style="font-size: 20px; font-weight: bold; color: #1f2937;">${resultData.total_credit_hours}</p>
-                    </div>
-                    <div style="text-align: center;">
-                        <p style="font-size: 14px; color: #6b7280;">Total Weighted Grade Points</p>
-                        <p style="font-size: 20px; font-weight: bold; color: #1f2937;">${resultData.total_weighted_grade_points}</p>
-                    </div>
-                    <div style="text-align: center;">
-                        <p style="font-size: 14px; color: #6b7280;">GPA</p>
-                        <p style="font-size: 20px; font-weight: bold; color: #1f2937;">${resultData.gpa.toFixed(2)}</p>
-                    </div>
-                    <div style="text-align: center;">
-                        <p style="font-size: 14px; color: #6b7280;">Overall Grade</p>
-                        <p style="font-size: 30px; font-weight: bold; color: ${getGradeStyle(resultData.overall_grade).color};">${resultData.overall_grade}</p>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        printWindow.document.write(`
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <title>Student Result - ${resultData?.student_name || 'Unknown'}</title>
-                <style>
-                    body {
-                        font-family: 'Times New Roman', Times, serif;
-                        margin: 20px;
-                        padding: 20px;
-                        font-size: 12pt;
-                        line-height: 1.4;
-                        color: #000;
-                        background: #fff;
-                    }
-                    h3, h4 {
-                        color: #333;
-                    }
-                    @media print {
-                        body { margin: 10px; }
-                        table { page-break-inside: auto; }
-                        tr { page-break-inside: avoid; page-break-after: auto; }
-                    }
-                </style>
-            </head>
-            <body>
-                ${studentInfoHTML}
-                ${subjectTableHTML}
-                ${summaryHTML}
-            </body>
-            </html>
-        `);
-        
-        printWindow.document.close();
-        printWindow.focus();
-        
-        // Wait for the content to load before printing
-        setTimeout(() => {
-            printWindow.print();
-            printWindow.close();
-        }, 500);
+        window.print();
     };
 
-    if (isLoading || isStudentLoading) {
-        return (
-            <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px' }}>
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '256px' }}>
-                    <div style={{ fontSize: '18px', color: '#4b5563' }}>Loading result data...</div>
-                </div>
-            </div>
-        );
-    }
+    // Handle subject click to open modal
+    const handleSubjectClick = (subject) => {
+        setSelectedSubject(subject);
+        // Use DaisyUI's showModal method
+        document.getElementById('subject_details_modal').showModal();
+    };
 
-    if (error) {
+    if (loading || resultsLoading) {
         return (
-            <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px' }}>
-                <div style={{ backgroundColor: '#fef2f2', border: '1px solid #fca5a5', color: '#b91c1c', padding: '12px 16px', borderRadius: '6px' }}>
-                    {error}
-                </div>
+            <div className="flex justify-center items-center h-screen">
+                <div className="loading loading-spinner loading-lg"></div>
             </div>
         );
     }
 
     return (
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px' }}>
-            <div style={{ backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)', padding: '24px', marginBottom: '24px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                    <h2 style={{ fontSize: '24px', fontWeight: 'bold', color: '#1f2937' }}>Student Result</h2>
-                    <button
-                        onClick={handlePrint}
-                        style={{ padding: '8px 16px', backgroundColor: '#2563eb', color: 'white', borderRadius: '6px', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}
-                    >
-                        <FaDownload />
-                        Download PDF
-                    </button>
+        <div className="container mx-auto p-4">
+            {/* Print button - hidden when printing */}
+            <div className="flex justify-between mb-4 print:hidden">
+                <button
+                    onClick={handlePrint}
+                    className="btn bg-green-600 hover:bg-green-700 text-white flex items-center gap-2"
+                >
+                    <FaPrint />
+                    Print Result
+                </button>
+            </div>
+
+            {/* Result Sheet */}
+            <div className="bg-white shadow-lg w-3/4 rounded-lg p-6 print:shadow-none print:border print:border-gray-300">
+                {/* Header */}
+                <div className="text-center mb-6 border-b-2 border-green-500 pb-4">
+                    <h1 className="text-2xl font-bold text-green-700">Student Result Sheet</h1>
                 </div>
 
-                {resultData ? (
-                    <div id="result-sheet">
-                        {/* Student Information */}
-                        <div style={{ marginBottom: '32px' }}>
-                            <h3 style={{ fontSize: '20px', fontWeight: '600', textAlign: 'center', marginBottom: '16px' }}>Academic Result Sheet</h3>
-                            
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px', marginBottom: '24px' }}>
-                                <div>
-                                    <p style={{ fontSize: '14px', color: '#6b7280' }}>Student Number</p>
-                                    <p style={{ fontWeight: '600' }}>{resultData.student_number}</p>
-                                </div>
-                                <div>
-                                    <p style={{ fontSize: '14px', color: '#6b7280' }}>Student Name</p>
-                                    <p style={{ fontWeight: '600' }}>{resultData.student_name}</p>
-                                </div>
-                                <div>
-                                    <p style={{ fontSize: '14px', color: '#6b7280' }}>Class</p>
-                                    <p style={{ fontWeight: '600' }}>{resultData.class_name}</p>
-                                </div>
-                                <div>
-                                    <p style={{ fontSize: '14px', color: '#6b7280' }}>Section</p>
-                                    <p style={{ fontWeight: '600' }}>{resultData.section_name}</p>
-                                </div>
-                                <div>
-                                    <p style={{ fontSize: '14px', color: '#6b7280' }}>Academic Year</p>
-                                    <p style={{ fontWeight: '600' }}>{resultData.year_label}</p>
-                                </div>
-                                <div>
-                                    <p style={{ fontSize: '14px', color: '#6b7280' }}>Enrollment ID</p>
-                                    <p style={{ fontWeight: '600' }}>{resultData.enrollment_id}</p>
-                                </div>
-                            </div>
+                {/* Student Information */}
+                <div className="bg-gradient-to-r from-green-50 to-blue-50 p-4 rounded-lg mb-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-evenly">
+                        <div className="flex justify-between">
+                            <span className="font-semibold text-green-700">Student Number:</span>
+                            <span className="text-gray-700">{studentData?.student_number || 'N/A'}</span>
                         </div>
-
-                        {/* Subject Results Table */}
-                        <div style={{ marginBottom: '32px' }}>
-                            <h4 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '16px' }}>Subject-wise Results</h4>
-                            <div style={{ overflowX: 'auto' }}>
-                                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                                    <thead style={{ backgroundColor: '#f9fafb' }}>
-                                        <tr>
-                                            <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '12px', fontWeight: '500', color: '#6b7280', textTransform: 'uppercase' }}>
-                                                Subject Name
-                                            </th>
-                                            <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '12px', fontWeight: '500', color: '#6b7280', textTransform: 'uppercase' }}>
-                                                Subject Code
-                                            </th>
-                                            <th style={{ padding: '12px 16px', textAlign: 'center', fontSize: '12px', fontWeight: '500', color: '#6b7280', textTransform: 'uppercase' }}>
-                                                Credit Hours
-                                            </th>
-                                            <th style={{ padding: '12px 16px', textAlign: 'center', fontSize: '12px', fontWeight: '500', color: '#6b7280', textTransform: 'uppercase' }}>
-                                                Total Marks
-                                            </th>
-                                            <th style={{ padding: '12px 16px', textAlign: 'center', fontSize: '12px', fontWeight: '500', color: '#6b7280', textTransform: 'uppercase' }}>
-                                                Max Marks
-                                            </th>
-                                            <th style={{ padding: '12px 16px', textAlign: 'center', fontSize: '12px', fontWeight: '500', color: '#6b7280', textTransform: 'uppercase' }}>
-                                                Percentage
-                                            </th>
-                                            <th style={{ padding: '12px 16px', textAlign: 'center', fontSize: '12px', fontWeight: '500', color: '#6b7280', textTransform: 'uppercase' }}>
-                                                Grade
-                                            </th>
-                                            <th style={{ padding: '12px 16px', textAlign: 'center', fontSize: '12px', fontWeight: '500', color: '#6b7280', textTransform: 'uppercase' }}>
-                                                Grade Point
-                                            </th>
-                                            <th style={{ padding: '12px 16px', textAlign: 'center', fontSize: '12px', fontWeight: '500', color: '#6b7280', textTransform: 'uppercase' }}>
-                                                Weighted GP
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody style={{ backgroundColor: '#ffffff' }}>
-                                        {resultData.eachSubjectResultDtos.map((subject, index) => (
-                                            <tr key={index} style={{ borderBottom: '1px solid #e5e7eb' }}>
-                                                <td style={{ padding: '12px 16px', fontSize: '14px', color: '#111827' }}>
-                                                    {subject.subject_name}
-                                                </td>
-                                                <td style={{ padding: '12px 16px', fontSize: '14px', color: '#111827' }}>
-                                                    {subject.subject_code}
-                                                </td>
-                                                <td style={{ padding: '12px 16px', fontSize: '14px', textAlign: 'center', color: '#111827' }}>
-                                                    {subject.credit_hours}
-                                                </td>
-                                                <td style={{ padding: '12px 16px', fontSize: '14px', textAlign: 'center', color: '#111827' }}>
-                                                    {subject.total_marks}
-                                                </td>
-                                                <td style={{ padding: '12px 16px', fontSize: '14px', textAlign: 'center', color: '#111827' }}>
-                                                    {subject.max_marks}
-                                                </td>
-                                                <td style={{ padding: '12px 16px', fontSize: '14px', textAlign: 'center', color: '#111827' }}>
-                                                    {subject.percentage.toFixed(1)}%
-                                                </td>
-                                                <td style={{ padding: '12px 16px', fontSize: '14px', textAlign: 'center', ...getGradeStyle(subject.grade_name) }}>
-                                                    {subject.grade_name}
-                                                </td>
-                                                <td style={{ padding: '12px 16px', fontSize: '14px', textAlign: 'center', color: '#111827' }}>
-                                                    {subject.grade_point}
-                                                </td>
-                                                <td style={{ padding: '12px 16px', fontSize: '14px', textAlign: 'center', color: '#111827' }}>
-                                                    {subject.weighted_grade_point}
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div className="flex justify-between">
+                            <span className="font-semibold text-green-700">Student Name:</span>
+                            <span className="text-gray-700">{studentData ? `${studentData.first_name} ${studentData.last_name}` : 'N/A'}</span>
                         </div>
-
-                        {/* Summary */}
-                        <div style={{ borderTop: '1px solid #e5e7eb', paddingTop: '24px' }}>
-                            <h4 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '16px' }}>Result Summary</h4>
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
-                                <div style={{ textAlign: 'center' }}>
-                                    <p style={{ fontSize: '14px', color: '#6b7280' }}>Total Credit Hours</p>
-                                    <p style={{ fontSize: '20px', fontWeight: 'bold', color: '#1f2937' }}>{resultData.total_credit_hours}</p>
-                                </div>
-                                <div style={{ textAlign: 'center' }}>
-                                    <p style={{ fontSize: '14px', color: '#6b7280' }}>Total Weighted Grade Points</p>
-                                    <p style={{ fontSize: '20px', fontWeight: 'bold', color: '#1f2937' }}>{resultData.total_weighted_grade_points}</p>
-                                </div>
-                                <div style={{ textAlign: 'center' }}>
-                                    <p style={{ fontSize: '14px', color: '#6b7280' }}>GPA</p>
-                                    <p style={{ fontSize: '20px', fontWeight: 'bold', color: '#1f2937' }}>{resultData.gpa.toFixed(2)}</p>
-                                </div>
-                                <div style={{ textAlign: 'center' }}>
-                                    <p style={{ fontSize: '14px', color: '#6b7280' }}>Overall Grade</p>
-                                    <p style={{ fontSize: '30px', fontWeight: 'bold', ...getGradeStyle(resultData.overall_grade) }}>
-                                        {resultData.overall_grade}
-                                    </p>
-                                </div>
-                            </div>
+                        <div className="flex justify-between">
+                            <span className="font-semibold text-green-700">Date of Birth:</span>
+                            <span className="text-gray-700">{formatDate(studentData?.dob)}</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="font-semibold text-green-700">Gender:</span>
+                            <span className="text-gray-700">{formatGender(studentData?.gender)}</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="font-semibold text-green-700">Class:</span>
+                            <span className="text-gray-700">{studentData?.class_name || 'N/A'}</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="font-semibold text-green-700">Section:</span>
+                            <span className="text-gray-700">{studentData?.section_name || 'N/A'}</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="font-semibold text-green-700">Result:</span>
+                            <span className={`font-bold text-lg ${resultStatus === 'PASSED' ? 'text-green-600' : 'text-red-600'}`}>
+                                {resultStatus}
+                            </span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="font-semibold text-green-700">GPA:</span>
+                            <span className="font-bold text-lg text-blue-600">{gpa}</span>
                         </div>
                     </div>
-                ) : (
-                    <div style={{ textAlign: 'center', padding: '32px 0', color: '#6b7280' }}>
-                        No result data available
+                </div>
+
+                {/* Subject Results Table */}
+                <div className="overflow-x-auto">
+                    <table className="table table-zebra w-full">
+                        <thead>
+                            <tr className="bg-green-100">
+                                <th className="border border-green-300 text-green-700">Subject Name</th>
+                                <th className="border border-green-300 text-green-700">Total Marks</th>
+                                <th className="border border-green-300 text-green-700">Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {subjectResults.map((subject, index) => (
+                                <tr key={index}>
+                                    <td
+                                        className="border border-green-200 cursor-pointer hover:bg-green-50 text-blue-600 hover:underline"
+                                        onClick={() => handleSubjectClick(subject)}
+                                    >
+                                        {subject.subject_name}
+                                    </td>
+                                    <td className="border border-green-200 text-center">{subject.total_marks}</td>
+                                    <td className="border border-green-200 text-center">
+                                        <span className={`font-bold ${
+                                            subject.grade_name === 'F' ? 'text-red-600' :
+                                            subject.grade_point >= 4 ? 'text-green-600' :
+                                            subject.grade_point >= 3 ? 'text-blue-600' :
+                                            'text-yellow-600'
+                                        }`}>
+                                            {subject.grade_name}
+                                        </span>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+
+                {/* Footer */}
+                <div className="mt-6 pt-4 border-t-2 border-green-300 flex justify-between">
+                    {/* <div className="text-center">
+                        <div className="h-16 border-b border-green-400 mb-2"></div>
+                        <p className="text-green-700 font-medium">Class Teacher</p>
+                    </div> */}
+                    <div className="text-center">
+                        <div className="h-16 border-b border-green-400 mb-2"></div>
+                        <p className="text-green-700 font-medium">Principal</p>
                     </div>
-                )}
+                </div>
             </div>
+
+            {/* Modal for Subject Details */}
+            <dialog id="subject_details_modal" className="modal">
+                <div className="modal-box w-11/12 max-w-4xl">
+                    <form method="dialog">
+                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                    </form>
+                    <h3 className="font-bold text-lg text-green-700 mb-4">
+                       Your {selectedSubject?.subject_name} - Exam Details
+                    </h3>
+                    
+                    {detailsLoading ? (
+                        <div className="flex justify-center py-8">
+                            <div className="loading loading-spinner loading-md"></div>
+                        </div>
+                    ) : (
+                        <div className="overflow-x-auto">
+                            <table className="table table-zebra w-full">
+                                <thead>
+                                    <tr className="bg-green-100">
+                                        <th className="border border-green-300 text-green-700">Exam Type ID</th>
+                                        <th className="border border-green-300 text-green-700">Exam Type</th>
+                                        <th className="border border-green-300 text-green-700">Marks</th>
+                                        <th className="border border-green-300 text-green-700">Weight (%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {detailedResults.map((exam, index) => (
+                                        <tr key={index}>
+                                            <td className="border border-green-200 text-center">{exam.exam_type_id}</td>
+                                            <td className="border border-green-200">{exam.type_name}</td>
+                                            <td className="border border-green-200 text-center">
+                                                {exam.marks !== null ? (
+                                                    <span className="font-semibold text-blue-600">{exam.marks}</span>
+                                                ) : (
+                                                    <span className="text-gray-500 italic">Marks not submitted</span>
+                                                )}
+                                            </td>
+                                            <td className="border border-green-200 text-center">{exam.weight_percentage}%</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+                    
+                    <div className="modal-action">
+                        <form method="dialog">
+                            <button className="btn bg-green-600 hover:bg-green-700 text-white">Close</button>
+                        </form>
+                    </div>
+                </div>
+                <form method="dialog" className="modal-backdrop">
+                    <button>close</button>
+                </form>
+            </dialog>
         </div>
     );
 };

@@ -40,6 +40,8 @@ import ManageSubjects from "../pages/admins/ManageSubjects/ManageSubjects";
 import AddSubject from "../pages/admins/ManageSubjects/AddSubject";
 import ManageClasses from "../pages/admins/ManageClasses/ManageClasses";
 import AddClassSubjects from "../pages/admins/ManageClasses/AddClassSubjects";
+import Notices from "../pages/Notices/Notices";
+import CreateNotices from "../pages/admins/ManageNotices/CreateNotices";
 
 export const router = createBrowserRouter([
     {
@@ -65,6 +67,10 @@ export const router = createBrowserRouter([
             {
                 path: "/student-login",
                 element: <StudentLogin></StudentLogin>
+            },
+            {
+                path: "/notices",
+                element: <Notices></Notices>
             }
         ]
     },
@@ -151,6 +157,14 @@ export const router = createBrowserRouter([
             {
                 path: "manage-classes/add-class-subjects",
                 element: <AddClassSubjects></AddClassSubjects>
+            },
+            {
+                path: "notices",
+                element: <Notices></Notices>
+            },
+            {
+                path: "notices/add-notices",
+                element: <CreateNotices></CreateNotices>
             }
             
 

@@ -119,10 +119,16 @@ const TeacherSidebar = () => {
                   <span>About Us</span>
                 </Link>
         </div>
+
+        <Link to="/notices" className="btn btn-ghost btn-block justify-start gap-3 text-base-content">
+                  <RiNotificationLine />
+                  <span>Notices</span>
+                </Link>
         {/* Placeholder area for future items */}
         <div className="text-sm text-base-content/70 px-2">
           You can add more links, quick actions, or tools here later.
         </div>
+
       </nav>
 
       {/* User info section at the bottom */}

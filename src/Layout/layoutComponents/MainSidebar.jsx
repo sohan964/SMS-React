@@ -3,6 +3,7 @@ import { FaChalkboardTeacher, FaHome } from 'react-icons/fa';
 import { FaAngleDown } from "react-icons/fa6";
 import { MdAdminPanelSettings, MdOutlineRoundaboutRight } from 'react-icons/md';
 import { PiStudentBold } from 'react-icons/pi';
+import { RiNotificationLine } from 'react-icons/ri';
 import { Link } from 'react-router';
 
 const MainSidebar = () => {
@@ -105,6 +106,11 @@ const MainSidebar = () => {
         <Link to="/about-us" className="btn btn-ghost btn-block justify-start gap-3 text-base-content">
           <MdOutlineRoundaboutRight />
           <span>About Us</span>
+        </Link>
+
+        <Link to="/notices" className="btn btn-ghost btn-block justify-start gap-3 text-base-content">
+          <RiNotificationLine />
+          <span>Notices</span>
         </Link>
 
         {/* Divider for visual separation */}

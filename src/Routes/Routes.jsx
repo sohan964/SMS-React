@@ -42,6 +42,7 @@ import ManageClasses from "../pages/admins/ManageClasses/ManageClasses";
 import AddClassSubjects from "../pages/admins/ManageClasses/AddClassSubjects";
 import Notices from "../pages/Notices/Notices";
 import CreateNotices from "../pages/admins/ManageNotices/CreateNotices";
+import UnpaidFees from "../pages/students/StudentFees/UnpaidFees";
 
 export const router = createBrowserRouter([
     {
@@ -215,6 +216,10 @@ export const router = createBrowserRouter([
             {
                 path: "student-result",
                 element: <StudentResult></StudentResult>
+            },
+            {
+                path: "student-fees/unpaid-fees",
+                element: <UnpaidFees></UnpaidFees>
             }
         ]
     }

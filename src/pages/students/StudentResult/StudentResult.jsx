@@ -153,8 +153,9 @@ const StudentResult = () => {
                         <thead>
                             <tr className="bg-green-100">
                                 <th className="border border-green-300 text-green-700">Subject Name</th>
-                                <th className="border border-green-300 text-green-700">Total Marks</th>
+                                <th className="border border-green-300 text-green-700">Achieved Marks</th>
                                 <th className="border border-green-300 text-green-700">Grade</th>
+                                <th className="border border-green-300 text-green-700">Point</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -177,6 +178,7 @@ const StudentResult = () => {
                                             {subject.grade_name}
                                         </span>
                                     </td>
+                                    <td className="border border-green-200 text-center">{subject.grade_point}</td>
                                 </tr>
                             ))}
                         </tbody>

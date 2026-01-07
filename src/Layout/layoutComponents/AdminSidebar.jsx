@@ -2,7 +2,7 @@
 import React, { useContext } from "react";
 import {  FaHome, FaSignOutAlt } from "react-icons/fa";
 import { FaAngleDown } from "react-icons/fa6";
-import { MdSchedule } from "react-icons/md";
+import { MdPayment, MdSchedule } from "react-icons/md";
 
 import { Link } from "react-router";
 import { AuthContext } from "../../providers/AuthProvider";
@@ -266,6 +266,32 @@ const AdminSidebar = () => {
                 Add Subjects to Class
               </Link>
             </li>
+            
+          </ul>
+        </div>
+
+
+        <div className="dropdown w-full">
+          <label
+            tabIndex={0}
+            className="btn btn-ghost btn-block justify-between hover:bg-primary/10 transition-colors duration-200 rounded-lg"
+          >
+            <span className="flex items-center gap-3">
+              <MdPayment className="text-primary" />
+              <span className="font-medium">Manage Fees</span>
+            </span>
+            <FaAngleDown className="text-primary/70" />
+          </label>
+          <ul
+            tabIndex={0}
+            className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-56 z-20"
+          >
+            <li>
+              <Link to="/admin-dashboard/manage-fees/pending-payments" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
+                Pending Payments
+              </Link>
+            </li>
+           
             
           </ul>
         </div>

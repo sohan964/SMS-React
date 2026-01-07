@@ -76,6 +76,32 @@ const StudentSidebar = () => {
           </ul>
         </div>
 
+        <div className="dropdown w-full">
+          <label
+            tabIndex={0}
+            className="btn btn-ghost btn-block justify-between hover:bg-primary/10 transition-colors duration-200 rounded-lg"
+          >
+            <span className="flex items-center gap-3">
+              <FaChalkboardTeacher className="text-primary" />
+              <span className="font-medium">Tuition & Fees</span>
+            </span>
+            <FaAngleDown className="text-primary/70" />
+          </label>
+          <ul
+            tabIndex={0}
+            className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-56 z-20"
+          >
+            <li>
+              <Link
+                to="/student-dashboard/student-fees/unpaid-fees"
+                className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1"
+              >
+                View Fees
+              </Link>
+            </li>
+          </ul>
+        </div>
+
         <div className="divider my-2"></div>
                 <div>
                   <Link

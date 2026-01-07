@@ -43,6 +43,8 @@ import AddClassSubjects from "../pages/admins/ManageClasses/AddClassSubjects";
 import Notices from "../pages/Notices/Notices";
 import CreateNotices from "../pages/admins/ManageNotices/CreateNotices";
 import UnpaidFees from "../pages/students/StudentFees/UnpaidFees";
+import PendingPayments from "../pages/admins/ManageFees/PendingPayments";
+
 
 export const router = createBrowserRouter([
     {
@@ -166,9 +168,12 @@ export const router = createBrowserRouter([
             {
                 path: "notices/add-notices",
                 element: <CreateNotices></CreateNotices>
+            },
+            //manage fees and payments
+            {
+                path: "manage-fees/pending-payments",
+                element: <PendingPayments></PendingPayments>
             }
-            
-
         ]
     },
     {

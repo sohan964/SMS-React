@@ -44,6 +44,8 @@ import Notices from "../pages/Notices/Notices";
 import CreateNotices from "../pages/admins/ManageNotices/CreateNotices";
 import UnpaidFees from "../pages/students/StudentFees/UnpaidFees";
 import PendingPayments from "../pages/admins/ManageFees/PendingPayments";
+import GenerateMonthlyFees from "../pages/admins/ManageFees/GenerateMonthlyFees";
+import ContactUs from "../pages/ContactUs/ContactUs";
 
 
 export const router = createBrowserRouter([
@@ -74,6 +76,10 @@ export const router = createBrowserRouter([
             {
                 path: "/notices",
                 element: <Notices></Notices>
+            },
+            {
+                path: "/contact-us",
+                element: <ContactUs></ContactUs>
             }
         ]
     },
@@ -173,6 +179,11 @@ export const router = createBrowserRouter([
             {
                 path: "manage-fees/pending-payments",
                 element: <PendingPayments></PendingPayments>
+            },
+
+            {
+                path: "manage-fees/generate-monthly-fees",
+                element: <GenerateMonthlyFees></GenerateMonthlyFees>
             }
         ]
     },

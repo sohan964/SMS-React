@@ -3,6 +3,7 @@ import HomeHeader from "./layoutComponents/HomeHeader";
 import { Outlet, useNavigate } from "react-router";
 import TeacherSidebar from "./layoutComponents/TeacherSidebar";
 import { AuthContext } from "../providers/AuthProvider";
+import Footer from "./layoutComponents/Footer";
 
 
 const TeacherDashboard = () => {
@@ -25,6 +26,7 @@ const TeacherDashboard = () => {
           <Outlet></Outlet>
         </div>
       </div>
+      <Footer></Footer>
     </>
   );
 };

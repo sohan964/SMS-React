@@ -1,128 +1,253 @@
-import React from 'react';
-import { FaChalkboardTeacher, FaHome } from 'react-icons/fa';
+import React, { useState } from 'react';
+import { FaChalkboardTeacher, FaHome, FaBars, FaTimes } from 'react-icons/fa';
 import { FaAngleDown } from "react-icons/fa6";
+import { FcContacts } from 'react-icons/fc';
 import { MdAdminPanelSettings, MdOutlineRoundaboutRight } from 'react-icons/md';
 import { PiStudentBold } from 'react-icons/pi';
 import { RiNotificationLine } from 'react-icons/ri';
 import { Link } from 'react-router';
 
 const MainSidebar = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
-    <aside role="navigation" aria-label="Main sidebar" className="w-64 min-h-screen bg-base-200 border-r p-4">
-      <nav className="space-y-3">
-        {/* Home button */}
-        <a
-          href="/"
-          className="btn btn-ghost btn-block justify-start gap-3 text-base-content"
-          aria-label="Home"
-        >
-          <FaHome></FaHome>
-          <span>Home</span>
-        </a>
+    <nav role="navigation" aria-label="Main navigation" className="sticky top-0 z-50 bg-base-200 border-b shadow-sm">
+      <div className="navbar px-4">
+        {/* Mobile menu toggle */}
+        <div className="navbar-start lg:hidden">
+          <button
+            onClick={toggleMobileMenu}
+            className="btn btn-ghost btn-circle"
+            aria-label="Toggle navigation menu"
+          >
+            {isMobileMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+          </button>
+        </div>
 
-        {/* Teachers dropdown */}
-        <div className="dropdown w-full">
-          <label tabIndex={0} className="btn btn-ghost btn-block justify-between">
-            <span className="flex items-center gap-3">
-              <FaChalkboardTeacher />
-              <span>Teachers</span>
-            </span>
-            <FaAngleDown />
-          </label>
-          <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-56">
-            {/* Replace <a href> with <Link to> if using react-router-dom */}
+        {/* Desktop navigation */}
+        <div className="navbar-center hidden lg:flex">
+          <ul className="menu menu-horizontal px-1 space-x-2">
+            {/* Home button */}
             <li>
-              <Link to="/teacher-login" className="flex justify-between items-center">
-                Teacher Login
+              <Link to="/" className="flex items-center gap-2">
+                <FaHome />
+                <span>Home</span>
               </Link>
             </li>
-            {/* Placeholder for more teacher items */}
-            <li>
-              <a href="#" className="flex justify-between items-center">
-                Manage Profile
-              </a>
-            </li>
-            {/* Add more teacher options as needed */}
-          </ul>
-        </div>
 
-        {/* Students dropdown */}
-        <div className="dropdown w-full">
-          <label tabIndex={0} className="btn btn-ghost btn-block justify-between">
-            <span className="flex items-center gap-3">
-              <PiStudentBold />
-              <span>Students</span>
-            </span>
-            <FaAngleDown />
-          </label>
-          <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-56">
+            {/* Teachers dropdown */}
+            <li className="dropdown">
+              <div tabIndex={0} role="button" className="flex items-center gap-2">
+                <FaChalkboardTeacher />
+                <span>Teachers</span>
+                <FaAngleDown className="ml-1" />
+              </div>
+              <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-56 mt-2">
+                <li>
+                  <Link to="/teacher-login" className="flex justify-between items-center">
+                    Teacher Login
+                  </Link>
+                </li>
+                <li>
+                  <a href="#" className="flex justify-between items-center">
+                    Manage Profile
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            {/* Students dropdown */}
+            <li className="dropdown">
+              <div tabIndex={0} role="button" className="flex items-center gap-2">
+                <PiStudentBold />
+                <span>Students</span>
+                <FaAngleDown className="ml-1" />
+              </div>
+              <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-56 mt-2">
+                <li>
+                  <Link to="/student-login" className="flex justify-between items-center">
+                    Student Login
+                  </Link>
+                </li>
+                <li>
+                  <a href="#" className="flex justify-between items-center">
+                    Routine
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="opacity-70" aria-disabled="true">
+                    More...
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            {/* Administration dropdown */}
+            <li className="dropdown">
+              <div tabIndex={0} role="button" className="flex items-center gap-2">
+                <MdAdminPanelSettings />
+                <span>Administration</span>
+                <FaAngleDown className="ml-1" />
+              </div>
+              <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-56 mt-2">
+                <li>
+                  <Link to="/admin-login" className="flex justify-between items-center">
+                    Admin Login
+                  </Link>
+                </li>
+                <li>
+                  <a href="#" className="flex justify-between items-center">
+                    Routine
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="opacity-70" aria-disabled="true">
+                    More...
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            {/* About us button */}
             <li>
-              <Link to="/student-login" className="flex justify-between items-center">
-                Student Login
+              <Link to="/about-us" className="flex items-center gap-2">
+                <MdOutlineRoundaboutRight />
+                <span>About Us</span>
+              </Link>
+            </li>
+
+            {/* Notices button */}
+            <li>
+              <Link to="/notices" className="flex items-center gap-2">
+                <RiNotificationLine />
+                <span>Notices</span>
               </Link>
             </li>
             <li>
-              <a href="#" className="flex justify-between items-center">
-                Routine
-              </a>
-            </li>
-            {/* You can add more student menu items here as needed */}
-            <li>
-              <a href="#" className="opacity-70" aria-disabled="true">
-                More...
-              </a>
-            </li>
-          </ul>
-        </div>
-        {/* Adminstration */}
-        <div className='dropdown w-full'>
-            <label tabIndex={0} className="btn btn-ghost btn-block justify-between">
-            <span className="flex items-center gap-3">
-             <MdAdminPanelSettings />
-              <span>Administration </span>
-            </span>
-            <FaAngleDown />
-          </label>
-          <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-56">
-            <li>
-              <Link to="/admin-login" className="flex justify-between items-center">
-                Admin Login
+              <Link to="/contact-us" className="flex items-center gap-2">
+                <FcContacts />
+                <span>Contact Us</span>
               </Link>
             </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Mobile menu */}
+      {isMobileMenuOpen && (
+        <div className="lg:hidden bg-base-200 border-t">
+          <ul className="menu p-4 space-y-2">
+            {/* Home button */}
             <li>
-              <a href="#" className="flex justify-between items-center">
-                Routine
-              </a>
+              <Link to="/" onClick={toggleMobileMenu} className="flex items-center gap-2">
+                <FaHome />
+                <span>Home</span>
+              </Link>
             </li>
-            {/* You can add more student menu items here as needed */}
+
+            {/* Teachers dropdown */}
+            <li className="dropdown">
+              <div tabIndex={0} role="button" className="flex items-center gap-2 justify-between">
+                <span className="flex items-center gap-2">
+                  <FaChalkboardTeacher />
+                  <span>Teachers</span>
+                </span>
+                <FaAngleDown />
+              </div>
+              <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-full">
+                <li>
+                  <Link to="/teacher-login" onClick={toggleMobileMenu} className="flex justify-between items-center">
+                    Teacher Login
+                  </Link>
+                </li>
+                <li>
+                  <a href="#" className="flex justify-between items-center">
+                    Manage Profile
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            {/* Students dropdown */}
+            <li className="dropdown">
+              <div tabIndex={0} role="button" className="flex items-center gap-2 justify-between">
+                <span className="flex items-center gap-2">
+                  <PiStudentBold />
+                  <span>Students</span>
+                </span>
+                <FaAngleDown />
+              </div>
+              <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-full">
+                <li>
+                  <Link to="/student-login" onClick={toggleMobileMenu} className="flex justify-between items-center">
+                    Student Login
+                  </Link>
+                </li>
+                <li>
+                  <a href="#" className="flex justify-between items-center">
+                    Routine
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="opacity-70" aria-disabled="true">
+                    More...
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            {/* Administration dropdown */}
+            <li className="dropdown">
+              <div tabIndex={0} role="button" className="flex items-center gap-2 justify-between">
+                <span className="flex items-center gap-2">
+                  <MdAdminPanelSettings />
+                  <span>Administration</span>
+                </span>
+                <FaAngleDown />
+              </div>
+              <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-full">
+                <li>
+                  <Link to="/admin-login" onClick={toggleMobileMenu} className="flex justify-between items-center">
+                    Admin Login
+                  </Link>
+                </li>
+                <li>
+                  <a href="#" className="flex justify-between items-center">
+                    Routine
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="opacity-70" aria-disabled="true">
+                    More...
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            {/* About us button */}
             <li>
-              <a href="#" className="opacity-70" aria-disabled="true">
-                More...
-              </a>
+              <Link to="/about-us" onClick={toggleMobileMenu} className="flex items-center gap-2">
+                <MdOutlineRoundaboutRight />
+                <span>About Us</span>
+              </Link>
+            </li>
+
+            {/* Notices button */}
+            <li>
+              <Link to="/notices" onClick={toggleMobileMenu} className="flex items-center gap-2">
+                <RiNotificationLine />
+                <span>Notices</span>
+              </Link>
             </li>
           </ul>
         </div>
-        {/* About us button */}
-        <Link to="/about-us" className="btn btn-ghost btn-block justify-start gap-3 text-base-content">
-          <MdOutlineRoundaboutRight />
-          <span>About Us</span>
-        </Link>
-
-        <Link to="/notices" className="btn btn-ghost btn-block justify-start gap-3 text-base-content">
-          <RiNotificationLine />
-          <span>Notices</span>
-        </Link>
-
-        {/* Divider for visual separation */}
-        <div className="divider my-2"></div>
-
-        {/* Placeholder area for future items */}
-        <div className="text-sm text-base-content/70 px-2">
-          You can add more links, quick actions, or tools here later.
-        </div>
-      </nav>
-    </aside>
+      )}
+    </nav>
   );
 };
 
-export default MainSidebar; 
+export default MainSidebar;

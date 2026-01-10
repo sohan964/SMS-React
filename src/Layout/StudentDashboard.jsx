@@ -3,6 +3,7 @@ import HomeHeader from "./layoutComponents/HomeHeader";
 import StudentSidebar from "./layoutComponents/StudentSidebar";
 import { Outlet, useNavigate } from "react-router";
 import { AuthContext } from "../providers/AuthProvider";
+import Footer from "./layoutComponents/Footer";
 
 const StudentDashboard = () => {
   const { user, logout } = useContext(AuthContext);
@@ -23,6 +24,7 @@ const StudentDashboard = () => {
           <Outlet></Outlet>
         </div>
       </div>
+      <Footer></Footer>
     </>
   );
 };

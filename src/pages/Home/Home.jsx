@@ -1,222 +1,135 @@
 import React from 'react';
-import { FaGraduationCap, FaBook, FaUsers, FaAward, FaClock, FaMapMarkerAlt, FaPhone, FaEnvelope } from 'react-icons/fa';
+import {
+  FaGraduationCap,
+  FaBook,
+  FaUsers,
+  FaAward,
+  FaClock,
+  FaMapMarkerAlt,
+  FaPhone,
+  FaEnvelope
+} from 'react-icons/fa';
 
 const Home = () => {
-    return (
-        <div className="min-h-screen bg-gray-50">
-            {/* Hero Section */}
-            <section className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-20 px-4">
-                <div className="max-w-6xl mx-auto text-center">
-                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">Welcome to St. Mary's</h1>
-                    <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
-                        Empowering young women through quality education since 1995
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        {/* <button className="btn btn-lg bg-white text-blue-600 hover:bg-gray-100 border-none">
-                            Explore Programs
-                        </button>
-                        <button className="btn btn-lg btn-outline text-white border-white hover:bg-white hover:text-blue-600">
-                            Schedule a Visit
-                        </button> */}
-                    </div>
-                </div>
-            </section>
+  return (
+    <div className="min-h-screen">
 
-            {/* Features Section */}
-            <section className="py-16 px-4">
-                <div className="max-w-6xl mx-auto">
-                    <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">Why Choose St. Mary's?</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        <div className="card bg-white shadow-lg hover:shadow-xl transition-shadow">
-                            <div className="card-body text-center">
-                                <div className="text-4xl text-blue-600 mb-4">
-                                    <FaGraduationCap />
-                                </div>
-                                <h3 className="card-title text-xl mb-2">Quality Education</h3>
-                                <p className="text-gray-600">Comprehensive curriculum designed to foster critical thinking and innovation</p>
-                            </div>
-                        </div>
-                        <div className="card bg-white shadow-lg hover:shadow-xl transition-shadow">
-                            <div className="card-body text-center">
-                                <div className="text-4xl text-blue-600 mb-4">
-                                    <FaUsers />
-                                </div>
-                                <h3 className="card-title text-xl mb-2">Expert Faculty</h3>
-                                <p className="text-gray-600">Dedicated teachers committed to nurturing each student's potential</p>
-                            </div>
-                        </div>
-                        <div className="card bg-white shadow-lg hover:shadow-xl transition-shadow">
-                            <div className="card-body text-center">
-                                <div className="text-4xl text-blue-600 mb-4">
-                                    <FaAward />
-                                </div>
-                                <h3 className="card-title text-xl mb-2">Excellence</h3>
-                                <p className="text-gray-600">Proven track record of academic achievements and success stories</p>
-                            </div>
-                        </div>
-                        <div className="card bg-white shadow-lg hover:shadow-xl transition-shadow">
-                            <div className="card-body text-center">
-                                <div className="text-4xl text-blue-600 mb-4">
-                                    <FaBook />
-                                </div>
-                                <h3 className="card-title text-xl mb-2">Resources</h3>
-                                <p className="text-gray-600">State-of-the-art facilities and extensive learning materials</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+      {/* HERO */}
+      <section
+        className="relative h-screen flex items-center justify-center text-white bg-cover bg-center"
+        style={{ backgroundImage: "url('https://content.jdmagicbox.com/comp/ghazipur/i4/9999px548.x548.171002105045.b9i4/catalogue/st-mary-s-convent-school-tulsipur-kacheri-ghazipur-convent-schools-HiAus28vjP.jpg')" }}
+      >
+        {/* LIGHT OVERLAY */}
+        <div className="absolute inset-0 bg-black/40"></div>
 
-            {/* Programs Section */}
-            <section className="py-16 px-4 bg-blue-50">
-                <div className="max-w-6xl mx-auto">
-                    <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">Our Programs</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div className="card bg-white shadow-lg hover:shadow-xl transition-shadow">
-                            <div className="card-body">
-                                <h3 className="card-title text-2xl text-blue-600 mb-4">Primary School</h3>
-                                <p className="text-gray-600 mb-4">Building strong foundations for lifelong learning with child-centered approaches.</p>
-                                <ul className="text-gray-600 space-y-2">
-                                    <li>• Age-appropriate curriculum</li>
-                                    <li>• Creative learning activities</li>
-                                    <li>• Small class sizes</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div className="card bg-white shadow-lg hover:shadow-xl transition-shadow">
-                            <div className="card-body">
-                                <h3 className="card-title text-2xl text-blue-600 mb-4">High School</h3>
-                                <p className="text-gray-600 mb-4">Comprehensive secondary education preparing students for higher studies.</p>
-                                <ul className="text-gray-600 space-y-2">
-                                    <li>• Science & Arts streams</li>
-                                    <li>• Advanced technology integration</li>
-                                    <li>• Extracurricular activities</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div className="card bg-white shadow-lg hover:shadow-xl transition-shadow">
-                            <div className="card-body">
-                                <h3 className="card-title text-2xl text-blue-600 mb-4">College</h3>
-                                <p className="text-gray-600 mb-4">Higher secondary education with specialized subjects for career preparation.</p>
-                                <ul className="text-gray-600 space-y-2">
-                                    <li>• Specialized subject focus</li>
-                                    <li>• Career counseling</li>
-                                    <li>• University preparation</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+        <div className="relative text-center px-4 z-10">
+          <h1 className="text-5xl md:text-7xl font-extrabold mb-6">
+            St. Mary's School & College
+          </h1>
 
-            {/* Statistics Section */}
-            <section className="py-16 px-4 bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
-                <div className="max-w-6xl mx-auto">
-                    <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Our Achievements</h2>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                        <div>
-                            <div className="text-4xl md:text-5xl font-bold mb-2">1500+</div>
-                            <div className="text-lg">Students</div>
-                        </div>
-                        <div>
-                            <div className="text-4xl md:text-5xl font-bold mb-2">100+</div>
-                            <div className="text-lg">Teachers</div>
-                        </div>
-                        <div>
-                            <div className="text-4xl md:text-5xl font-bold mb-2">95%</div>
-                            <div className="text-lg">Success Rate</div>
-                        </div>
-                        <div>
-                            <div className="text-4xl md:text-5xl font-bold mb-2">28</div>
-                            <div className="text-lg">Years of Excellence</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+          <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">
+            Building future leaders with knowledge, discipline, and innovation.
+          </p>
 
-            {/* Contact Section */}
-            <section className="py-16 px-4">
-                <div className="max-w-6xl mx-auto">
-                    <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">Get in Touch</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="bg-white p-8 rounded-lg shadow-lg">
-                            <h3 className="text-2xl font-bold mb-6 text-blue-600">Contact Information</h3>
-                            <div className="space-y-4">
-                                <div className="flex items-start gap-4">
-                                    <div className="text-blue-600 mt-1">
-                                        <FaMapMarkerAlt className="text-xl" />
-                                    </div>
-                                    <div>
-                                        <h4 className="font-semibold">Address</h4>
-                                        <p className="text-gray-600">Kaligonj - Gazipur, Bangladesh</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-start gap-4">
-                                    <div className="text-blue-600 mt-1">
-                                        <FaPhone className="text-xl" />
-                                    </div>
-                                    <div>
-                                        <h4 className="font-semibold">Phone</h4>
-                                        <p className="text-gray-600">+880 1234 567890</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-start gap-4">
-                                    <div className="text-blue-600 mt-1">
-                                        <FaEnvelope className="text-xl" />
-                                    </div>
-                                    <div>
-                                        <h4 className="font-semibold">Email</h4>
-                                        <p className="text-gray-600">info@stmarys.edu.bd</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-start gap-4">
-                                    <div className="text-blue-600 mt-1">
-                                        <FaClock className="text-xl" />
-                                    </div>
-                                    <div>
-                                        <h4 className="font-semibold">Office Hours</h4>
-                                        <p className="text-gray-600">Sunday - Thursday: 8:00 AM - 4:00 PM</p>
-                                        <p className="text-gray-600">Friday & Saturday: Closed</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="bg-white p-8 rounded-lg shadow-lg">
-                            <h3 className="text-2xl font-bold mb-6 text-blue-600">Send us a Message</h3>
-                            <form className="space-y-4">
-                                <div className="form-control">
-                                    <label className="label">
-                                        <span className="label-text">Name</span>
-                                    </label>
-                                    <input type="text" placeholder="Your name" className="input input-bordered w-full" />
-                                </div>
-                                <div className="form-control">
-                                    <label className="label">
-                                        <span className="label-text">Email</span>
-                                    </label>
-                                    <input type="email" placeholder="Your email" className="input input-bordered w-full" />
-                                </div>
-                                <div className="form-control">
-                                    <label className="label">
-                                        <span className="label-text">Message</span>
-                                    </label>
-                                    <textarea className="textarea textarea-bordered h-32" placeholder="Your message"></textarea>
-                                </div>
-                                <button type="submit" className="btn btn-primary w-full">Send Message</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </section>
+          <div className="flex gap-4 justify-center flex-wrap">
+            <button className="bg-yellow-400 text-black px-6 py-3 rounded-lg text-lg font-semibold hover:scale-105 transition">
+              Explore Programs
+            </button>
 
-            {/* Footer */}
-            <footer className="bg-gray-800 text-white py-8 px-4">
-                <div className="max-w-6xl mx-auto text-center">
-                    <p>&copy; {new Date().getFullYear()} St. Mary's Girls High School And College. All rights reserved.</p>
-                </div>
-            </footer>
+            <a href='/contact-us' className="border border-white px-6 py-3 rounded-lg text-lg hover:bg-white hover:text-black transition">
+              Contact Us
+            </a>
+          </div>
         </div>
-    );
+      </section>
+
+      {/* ABOUT */}
+      <section className="py-20 px-4 bg-white text-center">
+        <h2 className="text-4xl font-bold mb-6">Welcome to Our Institution</h2>
+        <p className="max-w-3xl mx-auto text-gray-600 text-lg">
+          We provide a balanced education system combining academic excellence,
+          moral values, and extracurricular activities to prepare students for the future.
+        </p>
+      </section>
+
+      {/* FEATURES */}
+      <section className="py-20 px-4 bg-gray-100">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-8">
+
+          {[
+            { icon: <FaGraduationCap />, title: "Quality Education" },
+            { icon: <FaUsers />, title: "Expert Teachers" },
+            { icon: <FaAward />, title: "Achievements" },
+            { icon: <FaBook />, title: "Library & Labs" }
+          ].map((item, i) => (
+            <div
+              key={i}
+              className="bg-white p-6 rounded-xl shadow-lg text-center hover:scale-105 transition"
+            >
+              <div className="text-4xl text-blue-600 mb-4 flex justify-center">
+                {item.icon}
+              </div>
+              <h3 className="text-xl font-semibold">{item.title}</h3>
+            </div>
+          ))}
+
+        </div>
+      </section>
+
+      {/* PROGRAMS */}
+      <section className="py-20 px-4">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
+
+          {["Primary", "High School", "College"].map((title, i) => (
+            <div
+              key={i}
+              className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition"
+            >
+              <h3 className="text-2xl font-bold text-blue-600 mb-3">
+                {title}
+              </h3>
+              <p className="text-gray-600">
+                High-quality education designed for student success.
+              </p>
+            </div>
+          ))}
+
+        </div>
+      </section>
+
+      {/* STATS */}
+      <section className="py-20 bg-blue-600 text-white text-center">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          {["1500+ Students", "100+ Teachers", "95% Success", "28 Years"].map((item, i) => (
+            <div key={i} className="text-2xl font-bold">{item}</div>
+          ))}
+        </div>
+      </section>
+
+      {/* CONTACT */}
+      <section className="py-20 px-4 bg-gray-100">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
+
+          <div className="bg-white p-6 rounded-xl shadow">
+            <h3 className="text-xl font-bold mb-4">Contact Info</h3>
+            <p><FaMapMarkerAlt /> Kaligonj, Gazipur</p>
+            <p><FaPhone /> +880123456789</p>
+            <p><FaEnvelope /> info@school.com</p>
+          </div>
+
+          <div className="bg-white p-6 rounded-xl shadow">
+            <h3 className="text-xl font-bold mb-4">Send Message</h3>
+            <input className="input input-bordered w-full mb-2" placeholder="Name" />
+            <input className="input input-bordered w-full mb-2" placeholder="Email" />
+            <textarea className="textarea textarea-bordered w-full mb-2" placeholder="Message"></textarea>
+            <button className="btn btn-primary w-full">Send</button>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  );
 };
 
 export default Home;

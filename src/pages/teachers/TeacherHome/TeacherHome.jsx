@@ -150,111 +150,111 @@ const TeacherHome = () => {
     }
 
     return (
-        <div className="container mx-auto p-6 space-y-6">
-            <ManageProfile />
-            
-            <div className="bg-white rounded-lg shadow-md p-6">
-                <div className="flex justify-between items-center mb-6">
+    <div className="min-h-screen bg-gray-100">
+
+        {/* DASHBOARD HEADER */}
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white px-6 py-8 shadow-md">
+            <h1 className="text-3xl font-bold">
+                👋 Welcome, {teacherData.first_name}
+            </h1>
+            <p className="opacity-90">
+                Manage your profile and class routine easily
+            </p>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
+
+            {/* PROFILE SECTION */}
+            <div className="bg-white rounded-2xl shadow-lg p-6">
+                <ManageProfile />
+            </div>
+
+            {/* ROUTINE SECTION */}
+            <div className="bg-white rounded-2xl shadow-lg p-6">
+
+                {/* HEADER */}
+                <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-6">
                     <h2 className="text-2xl font-bold text-gray-800">
-                        My Routine - {teacherData.first_name} {teacherData.last_name}
+                        📅 My Routine
                     </h2>
+
                     <button
                         onClick={handlePrint}
-                        className="btn btn-primary"
+                        className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition shadow"
                     >
-                        Print Routine
+                        🖨 Print
                     </button>
                 </div>
-                
-                {/* Teacher Info Card */}
-                <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <span className="text-sm text-gray-500">Academic Year</span>
-                            <p className="font-medium">{years.find(y => y.year_id === currentYearId)?.year_lable || 'N/A'}</p>
-                        </div>
-                        <div>
-                            <span className="text-sm text-gray-500">Department</span>
-                            <p className="font-medium">{teacherData.department_name || 'N/A'}</p>
-                        </div>
-                        <div>
-                            <span className="text-sm text-gray-500">Teacher Code</span>
-                            <p className="font-medium">{teacherData.teacher_code || 'N/A'}</p>
-                        </div>
+
+                {/* INFO CARDS */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div className="bg-blue-50 p-4 rounded-xl">
+                        <p className="text-sm text-gray-500">Academic Year</p>
+                        <p className="font-semibold text-gray-800">
+                            {years.find(y => y.year_id === currentYearId)?.year_lable || 'N/A'}
+                        </p>
+                    </div>
+
+                    <div className="bg-blue-50 p-4 rounded-xl">
+                        <p className="text-sm text-gray-500">Department</p>
+                        <p className="font-semibold text-gray-800">
+                            {teacherData.department_name || 'N/A'}
+                        </p>
+                    </div>
+
+                    <div className="bg-blue-50 p-4 rounded-xl">
+                        <p className="text-sm text-gray-500">Teacher Code</p>
+                        <p className="font-semibold text-gray-800">
+                            {teacherData.teacher_code || 'N/A'}
+                        </p>
                     </div>
                 </div>
-                
-                {/* Debug Info
-                <div className="bg-gray-100 p-4 rounded-lg mb-4">
-                    <p className="text-sm"><strong>Debug Info:</strong></p>
-                    <p className="text-sm">Teacher ID: {teacherData?.teacher_id}</p>
-                    <p className="text-sm">Current Year ID: {currentYearId}</p>
-                    <p className="text-sm">Routine Data Length: {routineData?.length || 0}</p>
-                    <p className="text-sm">Years Available: {years?.length || 0}</p>
-                </div> */}
 
-                {/* Routine Table */}
+                {/* TABLE */}
                 {routineData && routineData.length > 0 ? (
-                    <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                        <div className="overflow-x-auto">
-                            <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-gray-50">
-                                    <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Day
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Start Time
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            End Time
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Subject
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Class
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Section
-                                        </th>
+                    <div className="overflow-x-auto rounded-xl border">
+
+                        <table className="min-w-full text-sm">
+
+                            <thead className="bg-blue-600 text-white">
+                                <tr>
+                                    <th className="px-4 py-3 text-left">Day</th>
+                                    <th className="px-4 py-3 text-left">Start</th>
+                                    <th className="px-4 py-3 text-left">End</th>
+                                    <th className="px-4 py-3 text-left">Subject</th>
+                                    <th className="px-4 py-3 text-left">Class</th>
+                                    <th className="px-4 py-3 text-left">Section</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {routineData.map((routine, index) => (
+                                    <tr
+                                        key={routine.routine_id || index}
+                                        className="border-b hover:bg-blue-50 transition"
+                                    >
+                                        <td className="px-4 py-3">{routine.day_name || '-'}</td>
+                                        <td className="px-4 py-3">{routine.start_time || '-'}</td>
+                                        <td className="px-4 py-3">{routine.end_time || '-'}</td>
+                                        <td className="px-4 py-3 font-medium">{routine.subject_name || '-'}</td>
+                                        <td className="px-4 py-3">{routine.class_name || '-'}</td>
+                                        <td className="px-4 py-3">{routine.section_name || '-'}</td>
                                     </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
-                                    {routineData.map((routine, index) => (
-                                        <tr key={routine.routine_id || index} className="hover:bg-gray-50">
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                {routine.day_name || '-'}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                {routine.start_time || '-'}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                {routine.end_time || '-'}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                {routine.subject_name || '-'}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                {routine.class_name || '-'}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                {routine.section_name || '-'}
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
+                                ))}
+                            </tbody>
+
+                        </table>
                     </div>
                 ) : (
-                    <div className="bg-white rounded-lg shadow-md p-6 text-center text-gray-500">
-                        No routine data found for you.
+                    <div className="text-center text-gray-500 py-10">
+                        📭 No routine found
                     </div>
                 )}
+
             </div>
         </div>
-    );
+    </div>
+);
 };
 
 export default TeacherHome;

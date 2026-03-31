@@ -98,6 +98,14 @@ const TeacherSidebar = () => {
                 Submit Result
               </Link>
             </li>
+            <li>
+              <Link
+                to="/teacher-dashboard/manage-results/result-list"
+                className="flex justify-between items-center"
+              >
+                Student Results
+              </Link>
+            </li>
             {/* Placeholder for more teacher items */}
             
             {/* Add more teacher options as needed */}

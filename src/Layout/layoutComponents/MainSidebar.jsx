@@ -52,11 +52,11 @@ const MainSidebar = () => {
                     Teacher Login
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <a href="#" className="flex justify-between items-center">
                     Manage Profile
                   </a>
-                </li>
+                </li> */}
               </ul>
             </li>
 
@@ -73,16 +73,16 @@ const MainSidebar = () => {
                     Student Login
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <a href="#" className="flex justify-between items-center">
                     Routine
                   </a>
-                </li>
-                <li>
+                </li> */}
+                {/* <li>
                   <a href="#" className="opacity-70" aria-disabled="true">
                     More...
                   </a>
-                </li>
+                </li> */}
               </ul>
             </li>
 
@@ -99,16 +99,16 @@ const MainSidebar = () => {
                     Admin Login
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <a href="#" className="flex justify-between items-center">
                     Routine
                   </a>
-                </li>
-                <li>
+                </li> */}
+                {/* <li>
                   <a href="#" className="opacity-70" aria-disabled="true">
                     More...
                   </a>
-                </li>
+                </li> */}
               </ul>
             </li>
 
@@ -164,11 +164,11 @@ const MainSidebar = () => {
                     Teacher Login
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <a href="#" className="flex justify-between items-center">
                     Manage Profile
                   </a>
-                </li>
+                </li> */}
               </ul>
             </li>
 
@@ -187,7 +187,7 @@ const MainSidebar = () => {
                     Student Login
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <a href="#" className="flex justify-between items-center">
                     Routine
                   </a>
@@ -196,7 +196,7 @@ const MainSidebar = () => {
                   <a href="#" className="opacity-70" aria-disabled="true">
                     More...
                   </a>
-                </li>
+                </li> */}
               </ul>
             </li>
 
@@ -215,7 +215,7 @@ const MainSidebar = () => {
                     Admin Login
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <a href="#" className="flex justify-between items-center">
                     Routine
                   </a>
@@ -224,7 +224,7 @@ const MainSidebar = () => {
                   <a href="#" className="opacity-70" aria-disabled="true">
                     More...
                   </a>
-                </li>
+                </li> */}
               </ul>
             </li>
 

@@ -46,6 +46,7 @@ import UnpaidFees from "../pages/students/StudentFees/UnpaidFees";
 import PendingPayments from "../pages/admins/ManageFees/PendingPayments";
 import GenerateMonthlyFees from "../pages/admins/ManageFees/GenerateMonthlyFees";
 import ContactUs from "../pages/ContactUs/ContactUs";
+import ResultList from "../pages/teachers/ManageResults/ResultList";
 
 
 export const router = createBrowserRouter([
@@ -214,6 +215,10 @@ export const router = createBrowserRouter([
             {
                 path: "manage-results/add-results",
                 element: <AddResults></AddResults>
+            },
+            {
+                path: "manage-results/result-list",
+                element: <ResultList></ResultList>
             }
         ]
     },

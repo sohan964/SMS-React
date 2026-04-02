@@ -18,17 +18,22 @@ const TeacherDashboard = () => {
         }, [user, logout, navigate]);
  
   return (
-    <>
-      <HomeHeader />
-      <div className="flex">
-        <TeacherSidebar></TeacherSidebar>
-        <div className="flex-1 p-6">
-          <Outlet></Outlet>
+  <div className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-indigo-100">
+    <HomeHeader />
+
+    <div className="flex">
+      <TeacherSidebar />
+
+      <div className="flex-1 p-6">
+        <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-lg p-6 min-h-[80vh]">
+          <Outlet />
         </div>
       </div>
-      <Footer></Footer>
-    </>
-  );
+    </div>
+
+    <Footer />
+  </div>
+);
 };
 
 export default TeacherDashboard;

@@ -79,193 +79,168 @@ const ManageProfile = () => {
     }
 
     return (
-        <div className="max-w-5xl mx-auto px-4 py-10">
+  <div className="space-y-6">
 
-            {/* HEADER */}
-            <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-xl p-6 text-white shadow-lg mb-8">
-                <h1 className="text-3xl font-bold">👩‍🏫 Teacher Profile</h1>
-                <p className="opacity-90">Manage your personal information</p>
-            </div>
+    {/* HEADER */}
+    <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-6 text-white shadow-lg">
+      <h1 className="text-2xl md:text-3xl font-bold">
+        👩‍🏫 Teacher Profile
+      </h1>
+      <p className="opacity-90 text-sm">
+        Manage your personal information
+      </p>
+    </div>
 
-            {/* PROFILE CARD */}
-            <div className="bg-white rounded-2xl shadow-xl p-6 hover:shadow-2xl transition duration-300">
+    {/* PROFILE CARD */}
+    <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-md p-6">
 
-                <div className="flex flex-col md:flex-row items-center gap-6">
+      <div className="flex flex-col md:flex-row items-center gap-6">
 
-                    {/* IMAGE */}
-                    <div className="relative group">
-                        <img
-                            src={
-                                teacherData?.photo ||
-                                'https://png.pngtree.com/png-vector/20230729/ourmid/pngtree-picture-of-a-teacher-vector-png-image_7009012.png'
-                            }
-                            alt="Teacher"
-                            className="w-36 h-36 rounded-full object-cover border-4 border-blue-500 shadow-md group-hover:scale-105 transition"
-                        />
-                        <span className="absolute bottom-2 right-2 bg-green-500 w-4 h-4 rounded-full border-2 border-white"></span>
-                    </div>
-
-                    {/* INFO */}
-                    <div className="flex-1 text-center md:text-left">
-                        <h2 className="text-3xl font-bold text-gray-800">
-                            {teacherData?.first_name} {teacherData?.last_name}
-                        </h2>
-
-                        <p className="text-gray-500 mt-1">
-                            {teacherData?.department_name}
-                        </p>
-
-                        {/* ACTION BUTTON */}
-                        <button onClick={openModal} className="mt-4 inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                            <FaUserEdit />
-                            Edit Profile
-                        </button>
-                    </div>
-                </div>
-
-                {/* DETAILS */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-
-                    <div className="bg-gray-50 p-4 rounded-xl hover:bg-blue-50 transition">
-                        <div className="flex items-center gap-3 mb-1 text-blue-600">
-                            <FaIdBadge />
-                            <span className="text-sm">Teacher Code</span>
-                        </div>
-                        <p className="font-semibold text-gray-800">
-                            {teacherData?.teacher_code}
-                        </p>
-                    </div>
-
-                    <div className="bg-gray-50 p-4 rounded-xl hover:bg-blue-50 transition">
-                        <div className="flex items-center gap-3 mb-1 text-blue-600">
-                            <FaBuilding />
-                            <span className="text-sm">Department</span>
-                        </div>
-                        <p className="font-semibold text-gray-800">
-                            {teacherData?.department_name}
-                        </p>
-                    </div>
-
-                    <div className="bg-gray-50 p-4 rounded-xl hover:bg-blue-50 transition">
-                        <div className="flex items-center gap-3 mb-1 text-blue-600">
-                            <FaPhone />
-                            <span className="text-sm">Contact</span>
-                        </div>
-                        <p className="font-semibold text-gray-800">
-                            {teacherData?.contact}
-                        </p>
-                    </div>
-
-                    <div className="bg-gray-50 p-4 rounded-xl hover:bg-blue-50 transition">
-                        <div className="flex items-center gap-3 mb-1 text-blue-600">
-                            <FaEnvelope />
-                            <span className="text-sm">Email</span>
-                        </div>
-                        <p className="font-semibold text-gray-800">
-                            {teacherData?.email}
-                        </p>
-                    </div>
-
-                </div>
-            </div>
-
-            {/* EDIT PROFILE MODAL */}
-            {isModalOpen && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 transform transition-all">
-                        {/* MODAL HEADER */}
-                        <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-t-2xl p-4 flex justify-between items-center">
-                            <h3 className="text-xl font-bold text-white">Edit Profile</h3>
-                            <button onClick={closeModal} className="text-white hover:text-gray-200 transition">
-                                <FaTimes size={24} />
-                            </button>
-                        </div>
-
-                        {/* MODAL BODY */}
-                        <form onSubmit={handleSubmit} className="p-6 space-y-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Teacher Code</label>
-                                <input
-                                    type="text"
-                                    name="teacher_code"
-                                    value={formData.teacher_code}
-                                    onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
-                                    required
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
-                                <input
-                                    type="text"
-                                    name="first_name"
-                                    value={formData.first_name}
-                                    onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
-                                    required
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
-                                <input
-                                    type="text"
-                                    name="last_name"
-                                    value={formData.last_name}
-                                    onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
-                                    required
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Contact</label>
-                                <input
-                                    type="text"
-                                    name="contact"
-                                    value={formData.contact}
-                                    onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
-                                    required
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Photo URL</label>
-                                <input
-                                    type="text"
-                                    name="photo"
-                                    value={formData.photo}
-                                    onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
-                                    placeholder="https://example.com/photo.jpg"
-                                />
-                            </div>
-
-                            {/* MODAL FOOTER */}
-                            <div className="flex gap-3 pt-4">
-                                <button
-                                    type="button"
-                                    onClick={closeModal}
-                                    className="flex-1 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition font-medium"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    type="submit"
-                                    disabled={isUpdating}
-                                    className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-                                >
-                                    {isUpdating ? 'Updating...' : 'Update Profile'}
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
+        {/* IMAGE */}
+        <div className="relative group">
+          <img
+            src={
+              teacherData?.photo ||
+              'https://png.pngtree.com/png-vector/20230729/ourmid/pngtree-picture-of-a-teacher-vector-png-image_7009012.png'
+            }
+            alt="Teacher"
+            className="w-32 h-32 rounded-full object-cover border-4 border-blue-500 shadow-md group-hover:scale-105 transition"
+          />
+          <span className="absolute bottom-2 right-2 bg-green-500 w-3 h-3 rounded-full border-2 border-white"></span>
         </div>
-    );
+
+        {/* INFO */}
+        <div className="flex-1 text-center md:text-left">
+          <h2 className="text-2xl font-bold text-gray-800">
+            {teacherData?.first_name} {teacherData?.last_name}
+          </h2>
+
+          <p className="text-gray-500 mt-1">
+            {teacherData?.department_name}
+          </p>
+
+          <button
+            onClick={openModal}
+            className="mt-4 inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-4 py-2 rounded-lg hover:scale-105 transition shadow"
+          >
+            <FaUserEdit />
+            Edit Profile
+          </button>
+        </div>
+      </div>
+
+      {/* DETAILS */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+
+        <div className="bg-slate-50 p-4 rounded-xl hover:bg-blue-50 transition">
+          <div className="flex items-center gap-3 text-blue-500 text-sm mb-1">
+            <FaIdBadge />
+            Teacher Code
+          </div>
+          <p className="font-semibold text-gray-800">
+            {teacherData?.teacher_code}
+          </p>
+        </div>
+
+        <div className="bg-slate-50 p-4 rounded-xl hover:bg-blue-50 transition">
+          <div className="flex items-center gap-3 text-blue-500 text-sm mb-1">
+            <FaBuilding />
+            Department
+          </div>
+          <p className="font-semibold text-gray-800">
+            {teacherData?.department_name}
+          </p>
+        </div>
+
+        <div className="bg-slate-50 p-4 rounded-xl hover:bg-blue-50 transition">
+          <div className="flex items-center gap-3 text-blue-500 text-sm mb-1">
+            <FaPhone />
+            Contact
+          </div>
+          <p className="font-semibold text-gray-800">
+            {teacherData?.contact}
+          </p>
+        </div>
+
+        <div className="bg-slate-50 p-4 rounded-xl hover:bg-blue-50 transition">
+          <div className="flex items-center gap-3 text-blue-500 text-sm mb-1">
+            <FaEnvelope />
+            Email
+          </div>
+          <p className="font-semibold text-gray-800">
+            {teacherData?.email}
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    {/* MODAL */}
+    {isModalOpen && (
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+
+        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4">
+
+          {/* HEADER */}
+          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-t-2xl p-4 flex justify-between items-center">
+            <h3 className="text-lg font-bold text-white">
+              Edit Profile
+            </h3>
+            <button onClick={closeModal}>
+              <FaTimes className="text-white hover:text-gray-200" />
+            </button>
+          </div>
+
+          {/* FORM */}
+          <form onSubmit={handleSubmit} className="p-6 space-y-4">
+
+            {[
+              { label: "Teacher Code", name: "teacher_code" },
+              { label: "First Name", name: "first_name" },
+              { label: "Last Name", name: "last_name" },
+              { label: "Contact", name: "contact" },
+              { label: "Photo URL", name: "photo" },
+            ].map((field) => (
+              <div key={field.name}>
+                <label className="block text-sm text-gray-600 mb-1">
+                  {field.label}
+                </label>
+                <input
+                  type="text"
+                  name={field.name}
+                  value={formData[field.name]}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
+                  required={field.name !== "photo"}
+                />
+              </div>
+            ))}
+
+            {/* ACTIONS */}
+            <div className="flex gap-3 pt-4">
+              <button
+                type="button"
+                onClick={closeModal}
+                className="flex-1 px-4 py-2 bg-slate-200 text-gray-700 rounded-lg hover:bg-slate-300 transition"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="submit"
+                disabled={isUpdating}
+                className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-lg hover:scale-105 transition disabled:opacity-50"
+              >
+                {isUpdating ? "Updating..." : "Update"}
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    )}
+  </div>
+);
 };
 
 export default ManageProfile;

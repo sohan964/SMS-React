@@ -1,365 +1,305 @@
-// ...existing code...
-import React, { useContext } from "react";
-import {  FaHome, FaSignOutAlt } from "react-icons/fa";
+import React, { useContext, useState } from "react";
+import { FaHome, FaSignOutAlt } from "react-icons/fa";
 import { FaAngleDown } from "react-icons/fa6";
-import { MdPayment, MdSchedule } from "react-icons/md";
-
+import { MdPayment, MdSchedule, MdSubject } from "react-icons/md";
 import { Link } from "react-router";
 import { AuthContext } from "../../providers/AuthProvider";
 import { FcDepartment } from "react-icons/fc";
 import { GiTeacher } from "react-icons/gi";
-import { PiExam, PiStudent } from "react-icons/pi";
+import { PiExam, PiNotification, PiStudent } from "react-icons/pi";
 
 const AdminSidebar = () => {
-    const {user, logout} = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
+  const [openMenu, setOpenMenu] = useState(null);
 
-    const getInitials = (name) => {
-        if (!name) return "";
-        return name
-            .split(" ")
-            .map((n) => n[0])
-            .slice(0, 2)
-            .join("")
-            .toUpperCase();
-    };
+  const toggleMenu = (menu) => {
+    setOpenMenu(openMenu === menu ? null : menu);
+  };
 
-    const displayName = user?.fullName || user?.name || user?.displayName || user?.email?.split("@")[0] || "Unknown";
-    const displayRole = user?.role?.[0] || "No Role";
+  const getInitials = (name) => {
+    if (!name) return "";
+    return name.split(" ").map((n) => n[0]).slice(0, 2).join("").toUpperCase();
+  };
+
+  const displayName =
+    user?.fullName ||
+    user?.name ||
+    user?.email?.split("@")[0] ||
+    "Admin";
 
   return (
-    <aside
-      role="navigation"
-      aria-label="Main sidebar"
-      className="w-64 h-screen bg-gradient-to-b from-base-200 to-base-300 border-r border-base-300 shadow-lg flex flex-col"
-    >
-      {/*
-        Make the main nav scrollable (flex-1 + overflow-y-auto).
-        The bottom user info stays outside the scrollable area so it remains fixed at the bottom.
-      */}
-      <nav className="flex-1 overflow-y-auto pr-2 space-y-2 pb-6">
-        {/* Home button */}
-        <a
-          href="/admin-dashboard"
-          className="btn btn-ghost btn-block justify-start gap-3 text-base-content hover:bg-primary/10 transition-colors duration-200 rounded-lg"
-          aria-label="Home"
-        >
-          <FaHome className="text-primary" />
-          <span className="font-medium">Home</span>
-        </a>
+    <aside className="w-64 min-h-screen bg-slate-900 text-white flex flex-col shadow-xl">
 
-        {/* Routine */}
-        <div className="dropdown w-full">
-          <label
-            tabIndex={0}
-            className="btn btn-ghost btn-block justify-between hover:bg-primary/10 transition-colors duration-200 rounded-lg"
+      {/* TOP */}
+      <div className="p-6 text-lg font-bold border-b border-slate-700">
+        ⚙️ Admin Panel
+      </div>
+
+      {/* NAV */}
+      <nav className="flex-1 p-4 space-y-2 text-sm overflow-y-auto">
+
+        {/* HOME */}
+        <Link
+          to="/admin-dashboard"
+          className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800 transition"
+        >
+          <FaHome />
+          Dashboard
+        </Link>
+
+        {/* ROUTINE */}
+        <div>
+          <button
+            onClick={() => toggleMenu("routine")}
+            className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800"
           >
             <span className="flex items-center gap-3">
-              <MdSchedule className="text-primary" />
-              <span className="font-medium">Manage Routines</span>
+              <MdSchedule />
+              Manage Routines
             </span>
-            <FaAngleDown className="text-primary/70" />
-          </label>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-56 z-20"
-          >
-            <li>
-              <Link to="/admin-dashboard/teacher-routine" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
+            <FaAngleDown className={`${openMenu === "routine" ? "rotate-180" : ""} transition`} />
+          </button>
+
+          {openMenu === "routine" && (
+            <div className="ml-6 mt-2 space-y-1">
+              <Link to="/admin-dashboard/teacher-routine" className="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400">
                 Teacher Routine
               </Link>
-            </li>
-            <li>
-              <Link to="/admin-dashboard/create-class-routine" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
+              <Link to="/admin-dashboard/create-class-routine" className="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400">
                 Add Class Routine
               </Link>
-            </li>
-          </ul>
+            </div>
+          )}
         </div>
 
-
-        {/* departments */}
-        <div className="dropdown w-full">
-          <label
-            tabIndex={0}
-            className="btn btn-ghost btn-block justify-between hover:bg-primary/10 transition-colors duration-200 rounded-lg"
+        {/* DEPARTMENTS */}
+        <div>
+          <button
+            onClick={() => toggleMenu("dept")}
+            className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800"
           >
             <span className="flex items-center gap-3">
               <FcDepartment />
-              <span className="font-medium">Manage Departments</span>
+              Departments
             </span>
-            <FaAngleDown className="text-primary/70" />
-          </label>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-56 z-20"
-          >
-            <li>
-              <Link to="/admin-dashboard/manage-departments" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
+            <FaAngleDown className={`${openMenu === "dept" ? "rotate-180" : ""} transition`} />
+          </button>
+
+          {openMenu === "dept" && (
+            <div className="ml-6 mt-2 space-y-1">
+              <Link to="/admin-dashboard/manage-departments" className="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400">
                 Department List
               </Link>
-            </li>
-            <li>
-              <Link to="/admin-dashboard/manage-departments/add-department" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
+              <Link to="/admin-dashboard/manage-departments/add-department" className="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400">
                 Add Department
               </Link>
-            </li>
-            
-          </ul>
+            </div>
+          )}
         </div>
 
-        {/* Students */}
-        <div className="dropdown w-full">
-          <label
-            tabIndex={0}
-            className="btn btn-ghost btn-block justify-between hover:bg-primary/10 transition-colors duration-200 rounded-lg"
+        {/* add subjects */}
+        <div>
+          <button
+            onClick={() => toggleMenu("subject")}
+            className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800"
           >
             <span className="flex items-center gap-3">
-              <PiStudent className="text-primary" />
-              <span className="font-medium">Manage Students</span>
+              <MdSubject />
+              Subject
             </span>
-            <FaAngleDown className="text-primary/70" />
-          </label>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-56 z-20"
-          >
-            <li>
-              <Link to="/admin-dashboard/student-register" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
-                Student Register
-              </Link>
-            </li>
-            <li>
-              <Link to="/admin-dashboard/student-admission" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
-                Student Admission
-              </Link>
-            </li>
+            <FaAngleDown className={`${openMenu === "subject" ? "rotate-180" : ""} transition`} />
+          </button>
 
-            <li>
-              <Link to="/admin-dashboard/student-enrollment" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
-                  Course Enrollments
+          {openMenu === "subject" && (
+            <div className="ml-6 mt-2 space-y-1">
+              <Link to="/admin-dashboard/manage-subjects" className="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400">
+                Subject List
               </Link>
-            </li>
-            
-          </ul>
-        </div>
-
-        {/* Teachers */}
-        <div className="dropdown w-full">
-          <label
-            tabIndex={0}
-            className="btn btn-ghost btn-block justify-between hover:bg-primary/10 transition-colors duration-200 rounded-lg"
-          >
-            <span className="flex items-center gap-3">
-              <GiTeacher className="text-primary" />
-              <span className="font-medium">Manage Teachers</span>
-            </span>
-            <FaAngleDown className="text-primary/70" />
-          </label>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-56 z-20"
-          >
-            <li>
-              <Link to="/admin-dashboard/manage-teachers" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
-                Manage Teachers
-              </Link>
-            </li>
-            <li>
-              <Link to="/admin-dashboard/teacher-register" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
-                Register Teacher
-              </Link>
-            </li>
-            <li>
-              <Link to="/admin-dashboard/create-teacher" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
-                Create Teacher
-              </Link>
-            </li>
-          </ul>
-        </div>
-
-        {/* Exams */}
-        <div className="dropdown w-full">
-          <label
-            tabIndex={0}
-            className="btn btn-ghost btn-block justify-between hover:bg-primary/10 transition-colors duration-200 rounded-lg"
-          >
-            <span className="flex items-center gap-3">
-              <PiExam className="text-primary" />
-              <span className="font-medium">Manage Exams</span>
-            </span>
-            <FaAngleDown className="text-primary/70" />
-          </label>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-56 z-20"
-          >
-            <li>
-              <Link to="/admin-dashboard/manage-exams" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
-                Manage Exams
-              </Link>
-            </li>
-            <li>
-              <Link to="/admin-dashboard/manage-exams/create-exam-session" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
-                Create Exam-Session
-              </Link>
-            </li>
-            <li>
-              <Link to="/admin-dashboard/manage-exams/exam-sessions" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
-                Exam Schedule
-              </Link>
-            </li>
-          </ul>
-        </div>
-        {/* Add other navigation items here */}
-
-        <div className="dropdown w-full">
-          <label
-            tabIndex={0}
-            className="btn btn-ghost btn-block justify-between hover:bg-primary/10 transition-colors duration-200 rounded-lg"
-          >
-            <span className="flex items-center gap-3">
-              <GiTeacher className="text-primary" />
-              <span className="font-medium">Manage Subjects</span>
-            </span>
-            <FaAngleDown className="text-primary/70" />
-          </label>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-56 z-20"
-          >
-            <li>
-              <Link to="/admin-dashboard/manage-subjects" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
-                Manage Subjects
-              </Link>
-            </li>
-            <li>
-              <Link to="/admin-dashboard/manage-subjects/add-subject" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
+              <Link to="/admin-dashboard/manage-subjects/add-subject" className="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400">
                 Add Subject
               </Link>
-            </li>
-            
-          </ul>
+            </div>
+          )}
         </div>
 
-        <div className="dropdown w-full">
-          <label
-            tabIndex={0}
-            className="btn btn-ghost btn-block justify-between hover:bg-primary/10 transition-colors duration-200 rounded-lg"
+        {/* add classes */}
+        <div>
+          <button
+            onClick={() => toggleMenu("class")}
+            className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800"
           >
             <span className="flex items-center gap-3">
-              <GiTeacher className="text-primary" />
-              <span className="font-medium">Manage Classes</span>
+              <MdSubject />
+              Manage Class
             </span>
-            <FaAngleDown className="text-primary/70" />
-          </label>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-56 z-20"
-          >
-            <li>
-              <Link to="/admin-dashboard/manage-classes" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
-                Manage Classes
+            <FaAngleDown className={`${openMenu === "class" ? "rotate-180" : ""} transition`} />
+          </button>
+
+          {openMenu === "class" && (
+            <div className="ml-6 mt-2 space-y-1">
+              <Link to="/admin-dashboard/manage-classes" className="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400">
+                Class List
               </Link>
-            </li>
-            <li>
-              <Link to="/admin-dashboard/manage-classes/add-class-subjects" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
-                Add Subjects to Class
+              <Link to="/admin-dashboard/manage-classes/add-class-subjects" className="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400">
+                Add Class subjects
               </Link>
-            </li>
-            
-          </ul>
+            </div>
+          )}
         </div>
 
-
-        <div className="dropdown w-full">
-          <label
-            tabIndex={0}
-            className="btn btn-ghost btn-block justify-between hover:bg-primary/10 transition-colors duration-200 rounded-lg"
+        {/* STUDENTS */}
+        <div>
+          <button
+            onClick={() => toggleMenu("students")}
+            className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800"
           >
             <span className="flex items-center gap-3">
-              <MdPayment className="text-primary" />
-              <span className="font-medium">Manage Fees</span>
+              <PiStudent />
+              Students
             </span>
-            <FaAngleDown className="text-primary/70" />
-          </label>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-56 z-20"
+            <FaAngleDown className={`${openMenu === "students" ? "rotate-180" : ""} transition`} />
+          </button>
+
+          {openMenu === "students" && (
+            <div className="ml-6 mt-2 space-y-1">
+              <Link to="/admin-dashboard/student-register" className="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400">
+                Register
+              </Link>
+              <Link to="/admin-dashboard/student-admission" className="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400">
+                Admission
+              </Link>
+              <Link to="/admin-dashboard/student-enrollment" className="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400">
+                Enrollments
+              </Link>
+            </div>
+          )}
+        </div>
+
+        {/* TEACHERS */}
+        <div>
+          <button
+            onClick={() => toggleMenu("teachers")}
+            className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800"
           >
-            <li>
-              <Link to="/admin-dashboard/manage-fees/pending-payments" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
+            <span className="flex items-center gap-3">
+              <GiTeacher />
+              Teachers
+            </span>
+            <FaAngleDown className={`${openMenu === "teachers" ? "rotate-180" : ""} transition`} />
+          </button>
+
+          {openMenu === "teachers" && (
+            <div className="ml-6 mt-2 space-y-1">
+              <Link to="/admin-dashboard/manage-teachers" className="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400">
+                Manage Teachers
+              </Link>
+              <Link to="/admin-dashboard/teacher-register" className="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400">
+                Register Teacher
+              </Link>
+            </div>
+          )}
+        </div>
+
+        {/* EXAMS */}
+        <div>
+          <button
+            onClick={() => toggleMenu("exams")}
+            className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800"
+          >
+            <span className="flex items-center gap-3">
+              <PiExam />
+              Exams
+            </span>
+            <FaAngleDown className={`${openMenu === "exams" ? "rotate-180" : ""} transition`} />
+          </button>
+
+          {openMenu === "exams" && (
+            <div className="ml-6 mt-2 space-y-1">
+              <Link to="/admin-dashboard/manage-exams" className="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400">
+                Manage Exams
+              </Link>
+            </div>
+          )}
+        </div>
+        
+
+        {/* FEES */}
+        <Link
+          to="/admin-dashboard/manage-fees/pending-payments"
+          className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800"
+        >
+          <MdPayment />
+          Fees
+        </Link>
+
+        <div>
+          <button
+            onClick={() => toggleMenu("fees")}
+            className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800"
+          >
+            <span className="flex items-center gap-3">
+              <PiNotification />
+              Fees
+            </span>
+            <FaAngleDown className={`${openMenu === "fees" ? "rotate-180" : ""} transition`} />
+          </button>
+
+          {openMenu === "fees" && (
+            <div className="ml-6 mt-2 space-y-1">
+              <Link to="/admin-dashboard/manage-fees/pending-payments" className="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400">
                 Pending Payments
               </Link>
-            </li>
-           
-            
-          </ul>
+              <Link to="/admin-dashboard/manage-fees/generate-monthly-fees" className="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400">
+                Add Notice
+              </Link>
+            </div>
+          )}
         </div>
 
-        <div className="dropdown w-full">
-          <label
-            tabIndex={0}
-            className="btn btn-ghost btn-block justify-between hover:bg-primary/10 transition-colors duration-200 rounded-lg"
+        {/* notice */}
+        <div>
+          <button
+            onClick={() => toggleMenu("notice")}
+            className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800"
           >
             <span className="flex items-center gap-3">
-              <GiTeacher className="text-primary" />
-              <span className="font-medium">Manage Notices</span>
+              <PiNotification />
+              notice
             </span>
-            <FaAngleDown className="text-primary/70" />
-          </label>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-56 z-20"
-          >
-            <li>
-              <Link to="/admin-dashboard/notices" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
-                Notices
+            <FaAngleDown className={`${openMenu === "notice" ? "rotate-180" : ""} transition`} />
+          </button>
+
+          {openMenu === "notice" && (
+            <div className="ml-6 mt-2 space-y-1">
+              <Link to="/admin-dashboard/notices" className="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400">
+                See Notice
               </Link>
-            </li>
-            <li>
-              <Link to="/admin-dashboard/notices/add-notices" className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1">
-                Create Notices
+              <Link to="/admin-dashboard/notices/add-notices" className="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400">
+                Add Notice
               </Link>
-            </li>
-            
-          </ul>
+            </div>
+          )}
         </div>
+
       </nav>
 
-      {/* User info at the bottom (fixed) */}
-      <div
-        className="sticky bottom-0 bg-gradient-to-r from-base-200 to-base-300 pt-4 border-t border-base-300 flex-none z-10 shadow-inner"
-      >
-        <div className="flex items-center gap-3 p-2 rounded-lg bg-base-100/50 backdrop-blur-sm">
-          <div className="avatar ring-2 ring-primary/20">
-            {user?.photoURL || user?.avatar || user?.photo ? (
-              <div className="w-12 h-12 rounded-full overflow-hidden">
-                <img
-                  src={user?.photoURL || user?.avatar || user?.photo}
-                  alt={`${displayName} profile`}
-                  className="object-cover"
-                />
-              </div>
-            ) : (
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary/80 text-white flex items-center justify-center text-lg font-bold shadow-md">
-                {getInitials(displayName)}
-              </div>
-            )}
+      {/* USER */}
+      <div className="p-4 border-t border-slate-700">
+        <div className="bg-slate-800 rounded-xl p-3 flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center font-bold">
+            {getInitials(displayName)}
           </div>
-          <div className="text-sm flex-1">
-            <div className="font-semibold text-base-content">{displayName}</div>
-            <div className="text-xs opacity-80 truncate">{user?.email || 'No email'}</div>
-            <div className="flex items-center gap-2 mt-1">
-              <span className="badge badge-primary badge-xs text-white">{displayRole}</span>
-            </div>
+
+          <div className="flex-1">
+            <p className="text-sm font-semibold">{displayName}</p>
+            <p className="text-xs text-slate-400">{user?.email}</p>
           </div>
+
           <button
             onClick={logout}
-            className="btn btn-sm btn-circle btn-ghost hover:bg-error/20 hover:text-error transition-all duration-200 group"
-            aria-label="Logout"
-            title="Logout"
+            className="p-2 rounded-lg hover:bg-red-500/20 hover:text-red-400 transition"
           >
-            <FaSignOutAlt className="w-4 h-4 group-hover:scale-110 transition-transform" />
+            <FaSignOutAlt />
           </button>
         </div>
       </div>
@@ -368,4 +308,3 @@ const AdminSidebar = () => {
 };
 
 export default AdminSidebar;
-// ...existing code...

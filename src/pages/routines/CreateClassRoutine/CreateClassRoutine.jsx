@@ -42,42 +42,49 @@ const SearchableDropdown = ({
     };
 
     return (
-        <div className="form-control w-full">
-            <label className="label">
-                <span className="label-text">{label}</span>
-            </label>
-            <div className="relative" onClick={handleDropdownClick}>
-                <input
-                    type="text"
-                    className="input input-bordered w-full"
-                    value={search || (value ? options.find(opt => opt[optionValue] == value)?.[optionLabel] : '')}
-                    onChange={(e) => {
-                        setSearch(e.target.value);
-                        setShowDropdown(true);
-                    }}
-                    onClick={handleInputClick}
-                    onFocus={() => setShowDropdown(true)}
-                    placeholder={`Search ${label.toLowerCase()}...`}
-                />
-                {showDropdown && (
-                    <div className="absolute z-10 w-full bg-white border border-gray-300 rounded-md mt-1 max-h-60 overflow-auto shadow-lg">
-                        {filteredOptions.length > 0 ? (
-                            filteredOptions.map(option => (
-                                <div
-                                    key={option[optionValue]}
-                                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                                    onClick={() => handleOptionClick(option)}
-                                >
-                                    {option[optionLabel]}
-                                </div>
-                            ))
-                        ) : (
-                            <div className="px-4 py-2 text-gray-500">No options found</div>
-                        )}
-                    </div>
-                )}
+        <div className="w-full">
+  <label className="text-sm text-gray-600">{label}</label>
+
+  <div className="relative mt-1" onClick={handleDropdownClick}>
+    <input
+      type="text"
+      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
+      value={
+        search ||
+        (value
+          ? options.find(opt => opt[optionValue] == value)?.[optionLabel]
+          : "")
+      }
+      onChange={(e) => {
+        setSearch(e.target.value);
+        setShowDropdown(true);
+      }}
+      onClick={handleInputClick}
+      onFocus={() => setShowDropdown(true)}
+      placeholder={`Search ${label.toLowerCase()}...`}
+    />
+
+    {showDropdown && (
+      <div className="absolute z-10 w-full bg-white/95 backdrop-blur-md border border-gray-200 rounded-lg mt-1 max-h-60 overflow-auto shadow-lg">
+        {filteredOptions.length > 0 ? (
+          filteredOptions.map(option => (
+            <div
+              key={option[optionValue]}
+              className="px-4 py-2 hover:bg-blue-50 cursor-pointer text-sm text-gray-700"
+              onClick={() => handleOptionClick(option)}
+            >
+              {option[optionLabel]}
             </div>
-        </div>
+          ))
+        ) : (
+          <div className="px-4 py-2 text-gray-400 text-sm">
+            No options found
+          </div>
+        )}
+      </div>
+    )}
+  </div>
+</div>
     );
 };
 
@@ -224,123 +231,133 @@ const CreateClassRoutine = () => {
     };
 
     return (
-        <div className="p-6">
-            <h2 className="text-2xl font-bold mb-6">Create Class Routine</h2>
-            
-            <form onSubmit={handleSubmit} className="space-y-4 max-w-2xl mx-auto">
-                {/* Year Dropdown */}
-                <SearchableDropdown
-                    label="Academic Year"
-                    value={selectedYear}
-                    setValue={setSelectedYear}
-                    search={yearSearch}
-                    setSearch={setYearSearch}
-                    showDropdown={showYearDropdown}
-                    setShowDropdown={setShowYearDropdown}
-                    options={years}
-                    optionLabel="year_lable"
-                    optionValue="year_id"
-                />
+  <div className="space-y-6">
 
-                {/* Class Dropdown */}
-                <SearchableDropdown
-                    label="Class"
-                    value={selectedClass}
-                    setValue={setSelectedClass}
-                    search={classSearch}
-                    setSearch={setClassSearch}
-                    showDropdown={showClassDropdown}
-                    setShowDropdown={setShowClassDropdown}
-                    options={classes}
-                    optionLabel="class_name"
-                    optionValue="class_id"
-                />
+    {/* HEADER */}
+    <div className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-2xl p-6 shadow-md">
+      <h2 className="text-2xl font-bold">
+        Create Class Routine
+      </h2>
+      <p className="text-sm opacity-90">
+        Assign teachers, subjects, and schedules efficiently
+      </p>
+    </div>
 
-                {/* Section Dropdown (filtered by class) */}
-                <SearchableDropdown
-                    label="Section"
-                    value={selectedSection}
-                    setValue={setSelectedSection}
-                    search={sectionSearch}
-                    setSearch={setSectionSearch}
-                    showDropdown={showSectionDropdown}
-                    setShowDropdown={setShowSectionDropdown}
-                    options={filteredSections}
-                    optionLabel="section_name"
-                    optionValue="section_id"
-                />
+    {/* FORM CARD */}
+    <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-md p-6 max-w-2xl mx-auto">
 
-                {/* Subject Dropdown (filtered by class) */}
-                <SearchableDropdown
-                    label="Subject"
-                    value={selectedSubject}
-                    setValue={setSelectedSubject}
-                    search={subjectSearch}
-                    setSearch={setSubjectSearch}
-                    showDropdown={showSubjectDropdown}
-                    setShowDropdown={setShowSubjectDropdown}
-                    options={filteredSubjects}
-                    optionLabel="name"
-                    optionValue="subject_id"
-                />
+      <form onSubmit={handleSubmit} className="space-y-4">
 
-                {/* Teacher Dropdown */}
-                <SearchableDropdown
-                    label="Teacher"
-                    value={selectedTeacher}
-                    setValue={setSelectedTeacher}
-                    search={teacherSearch}
-                    setSearch={setTeacherSearch}
-                    showDropdown={showTeacherDropdown}
-                    setShowDropdown={setShowTeacherDropdown}
-                    options={teachers.map(teacher => ({
-                        ...teacher,
-                        full_name: `${teacher.first_name} ${teacher.last_name}`
-                    }))}
-                    optionLabel="full_name"
-                    optionValue="teacher_id"
-                />
+        <SearchableDropdown
+          label="Academic Year"
+          value={selectedYear}
+          setValue={setSelectedYear}
+          search={yearSearch}
+          setSearch={setYearSearch}
+          showDropdown={showYearDropdown}
+          setShowDropdown={setShowYearDropdown}
+          options={years}
+          optionLabel="year_lable"
+          optionValue="year_id"
+        />
 
-                {/* Day Dropdown */}
-                <SearchableDropdown
-                    label="Day"
-                    value={selectedDay}
-                    setValue={setSelectedDay}
-                    search={daySearch}
-                    setSearch={setDaySearch}
-                    showDropdown={showDayDropdown}
-                    setShowDropdown={setShowDayDropdown}
-                    options={days}
-                    optionLabel="day_name"
-                    optionValue="day_id"
-                />
+        <SearchableDropdown
+          label="Class"
+          value={selectedClass}
+          setValue={setSelectedClass}
+          search={classSearch}
+          setSearch={setClassSearch}
+          showDropdown={showClassDropdown}
+          setShowDropdown={setShowClassDropdown}
+          options={classes}
+          optionLabel="class_name"
+          optionValue="class_id"
+        />
 
-                {/* Slot Dropdown */}
-                <SearchableDropdown
-                    label="Time Slot"
-                    value={selectedSlot}
-                    setValue={setSelectedSlot}
-                    search={slotSearch}
-                    setSearch={setSlotSearch}
-                    showDropdown={showSlotDropdown}
-                    setShowDropdown={setShowSlotDropdown}
-                    options={slots.map(slot => ({
-                        ...slot,
-                        time_range: `${slot.start_time} - ${slot.end_time}`
-                    }))}
-                    optionLabel="time_range"
-                    optionValue="slot_id"
-                />
+        <SearchableDropdown
+          label="Section"
+          value={selectedSection}
+          setValue={setSelectedSection}
+          search={sectionSearch}
+          setSearch={setSectionSearch}
+          showDropdown={showSectionDropdown}
+          setShowDropdown={setShowSectionDropdown}
+          options={filteredSections}
+          optionLabel="section_name"
+          optionValue="section_id"
+        />
 
-                {/* Submit Button */}
-                <div className="form-control mt-6">
-                    <button type="submit" className="btn btn-primary w-full">
-                        Add Routine
-                    </button>
-                </div>
-            </form>
-        </div>
-    );
+        <SearchableDropdown
+          label="Subject"
+          value={selectedSubject}
+          setValue={setSelectedSubject}
+          search={subjectSearch}
+          setSearch={setSubjectSearch}
+          showDropdown={showSubjectDropdown}
+          setShowDropdown={setShowSubjectDropdown}
+          options={filteredSubjects}
+          optionLabel="name"
+          optionValue="subject_id"
+        />
+
+        <SearchableDropdown
+          label="Teacher"
+          value={selectedTeacher}
+          setValue={setSelectedTeacher}
+          search={teacherSearch}
+          setSearch={setTeacherSearch}
+          showDropdown={showTeacherDropdown}
+          setShowDropdown={setShowTeacherDropdown}
+          options={teachers.map(t => ({
+            ...t,
+            full_name: `${t.first_name} ${t.last_name}`
+          }))}
+          optionLabel="full_name"
+          optionValue="teacher_id"
+        />
+
+        <SearchableDropdown
+          label="Day"
+          value={selectedDay}
+          setValue={setSelectedDay}
+          search={daySearch}
+          setSearch={setDaySearch}
+          showDropdown={showDayDropdown}
+          setShowDropdown={setShowDayDropdown}
+          options={days}
+          optionLabel="day_name"
+          optionValue="day_id"
+        />
+
+        <SearchableDropdown
+          label="Time Slot"
+          value={selectedSlot}
+          setValue={setSelectedSlot}
+          search={slotSearch}
+          setSearch={setSlotSearch}
+          showDropdown={showSlotDropdown}
+          setShowDropdown={setShowSlotDropdown}
+          options={slots.map(slot => ({
+            ...slot,
+            time_range: `${slot.start_time} - ${slot.end_time}`
+          }))}
+          optionLabel="time_range"
+          optionValue="slot_id"
+        />
+
+        {/* BUTTON */}
+        <button
+          type="submit"
+          className="w-full mt-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold hover:scale-[1.02] transition"
+        >
+          Add Routine
+        </button>
+
+      </form>
+    </div>
+
+  </div>
+);
 };
 
 export default CreateClassRoutine;

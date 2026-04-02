@@ -150,110 +150,117 @@ const TeacherHome = () => {
     }
 
     return (
-    <div className="min-h-screen bg-gray-100">
+  <div className="space-y-6">
 
-        {/* DASHBOARD HEADER */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white px-6 py-8 shadow-md">
-            <h1 className="text-3xl font-bold">
-                👋 Welcome, {teacherData.first_name}
-            </h1>
-            <p className="opacity-90">
-                Manage your profile and class routine easily
-            </p>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
-
-            {/* PROFILE SECTION */}
-            <div className="bg-white rounded-2xl shadow-lg p-6">
-                <ManageProfile />
-            </div>
-
-            {/* ROUTINE SECTION */}
-            <div className="bg-white rounded-2xl shadow-lg p-6">
-
-                {/* HEADER */}
-                <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-6">
-                    <h2 className="text-2xl font-bold text-gray-800">
-                        📅 My Routine
-                    </h2>
-
-                    <button
-                        onClick={handlePrint}
-                        className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition shadow"
-                    >
-                        🖨 Print
-                    </button>
-                </div>
-
-                {/* INFO CARDS */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                    <div className="bg-blue-50 p-4 rounded-xl">
-                        <p className="text-sm text-gray-500">Academic Year</p>
-                        <p className="font-semibold text-gray-800">
-                            {years.find(y => y.year_id === currentYearId)?.year_lable || 'N/A'}
-                        </p>
-                    </div>
-
-                    <div className="bg-blue-50 p-4 rounded-xl">
-                        <p className="text-sm text-gray-500">Department</p>
-                        <p className="font-semibold text-gray-800">
-                            {teacherData.department_name || 'N/A'}
-                        </p>
-                    </div>
-
-                    <div className="bg-blue-50 p-4 rounded-xl">
-                        <p className="text-sm text-gray-500">Teacher Code</p>
-                        <p className="font-semibold text-gray-800">
-                            {teacherData.teacher_code || 'N/A'}
-                        </p>
-                    </div>
-                </div>
-
-                {/* TABLE */}
-                {routineData && routineData.length > 0 ? (
-                    <div className="overflow-x-auto rounded-xl border">
-
-                        <table className="min-w-full text-sm">
-
-                            <thead className="bg-blue-600 text-white">
-                                <tr>
-                                    <th className="px-4 py-3 text-left">Day</th>
-                                    <th className="px-4 py-3 text-left">Start</th>
-                                    <th className="px-4 py-3 text-left">End</th>
-                                    <th className="px-4 py-3 text-left">Subject</th>
-                                    <th className="px-4 py-3 text-left">Class</th>
-                                    <th className="px-4 py-3 text-left">Section</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                {routineData.map((routine, index) => (
-                                    <tr
-                                        key={routine.routine_id || index}
-                                        className="border-b hover:bg-blue-50 transition"
-                                    >
-                                        <td className="px-4 py-3">{routine.day_name || '-'}</td>
-                                        <td className="px-4 py-3">{routine.start_time || '-'}</td>
-                                        <td className="px-4 py-3">{routine.end_time || '-'}</td>
-                                        <td className="px-4 py-3 font-medium">{routine.subject_name || '-'}</td>
-                                        <td className="px-4 py-3">{routine.class_name || '-'}</td>
-                                        <td className="px-4 py-3">{routine.section_name || '-'}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-
-                        </table>
-                    </div>
-                ) : (
-                    <div className="text-center text-gray-500 py-10">
-                        📭 No routine found
-                    </div>
-                )}
-
-            </div>
-        </div>
+    {/* TOP WELCOME CARD */}
+    <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl p-6 shadow-lg">
+      <h1 className="text-2xl md:text-3xl font-bold">
+        👋 Welcome, {teacherData.first_name}
+      </h1>
+      <p className="opacity-90 mt-1 text-sm md:text-base">
+        Here's what's happening with your classes today
+      </p>
     </div>
+
+    {/* PROFILE + INFO */}
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+      {/* PROFILE */}
+      <div className="lg:col-span-2 bg-white/80 backdrop-blur-md rounded-2xl shadow-md p-6">
+        <h2 className="text-lg font-semibold text-gray-700 mb-4">
+          👤 Profile Overview
+        </h2>
+        <ManageProfile />
+      </div>
+
+      {/* QUICK INFO CARDS */}
+      <div className="space-y-4">
+
+        <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-md p-5">
+          <p className="text-xs text-gray-500">Academic Year</p>
+          <p className="font-bold text-lg text-gray-800">
+            {years.find(y => y.year_id === currentYearId)?.year_lable || 'N/A'}
+          </p>
+        </div>
+
+        <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-md p-5">
+          <p className="text-xs text-gray-500">Department</p>
+          <p className="font-bold text-lg text-gray-800">
+            {teacherData.department_name || 'N/A'}
+          </p>
+        </div>
+
+        <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-md p-5">
+          <p className="text-xs text-gray-500">Teacher Code</p>
+          <p className="font-bold text-lg text-gray-800">
+            {teacherData.teacher_code || 'N/A'}
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    {/* ROUTINE SECTION */}
+    <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-md p-6">
+
+      {/* HEADER */}
+      <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-6">
+        <h2 className="text-xl md:text-2xl font-bold text-gray-800">
+          📅 Class Routine
+        </h2>
+
+        <button
+          onClick={handlePrint}
+          className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-5 py-2 rounded-lg hover:scale-105 transition shadow"
+        >
+          🖨 Print
+        </button>
+      </div>
+
+      {/* TABLE */}
+      {routineData && routineData.length > 0 ? (
+        <div className="overflow-x-auto rounded-xl border border-gray-200">
+
+          <table className="min-w-full text-sm">
+
+            <thead className="bg-slate-900 text-white">
+              <tr>
+                <th className="px-4 py-3 text-left">Day</th>
+                <th className="px-4 py-3 text-left">Start</th>
+                <th className="px-4 py-3 text-left">End</th>
+                <th className="px-4 py-3 text-left">Subject</th>
+                <th className="px-4 py-3 text-left">Class</th>
+                <th className="px-4 py-3 text-left">Section</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {routineData.map((routine, index) => (
+                <tr
+                  key={routine.routine_id || index}
+                  className="border-b hover:bg-slate-50 transition"
+                >
+                  <td className="px-4 py-3">{routine.day_name || '-'}</td>
+                  <td className="px-4 py-3">{routine.start_time || '-'}</td>
+                  <td className="px-4 py-3">{routine.end_time || '-'}</td>
+                  <td className="px-4 py-3 font-medium">{routine.subject_name || '-'}</td>
+                  <td className="px-4 py-3">{routine.class_name || '-'}</td>
+                  <td className="px-4 py-3">{routine.section_name || '-'}</td>
+                </tr>
+              ))}
+            </tbody>
+
+          </table>
+        </div>
+      ) : (
+        <div className="text-center text-gray-400 py-12">
+          📭 No routine found
+        </div>
+      )}
+
+    </div>
+
+  </div>
 );
 };
 

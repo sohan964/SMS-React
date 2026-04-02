@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { FaAngleDown, FaChalkboardTeacher, FaHome, FaSignOutAlt } from "react-icons/fa";
 import { Link } from "react-router";
 import useStudentData from "../../hooks/useStudentData";
@@ -8,154 +8,161 @@ import { AuthContext } from "../../providers/AuthProvider";
 const StudentSidebar = () => {
   const [studentData] = useStudentData();
   const { user, logout } = useContext(AuthContext);
-  console.log("Student Data in Sidebar:", studentData);
-  
-  const getInitials = (name) => {
-    if (!name) return "";
-    return name
-      .split(" ")
-      .map((n) => n[0])
-      .slice(0, 2)
-      .join("")
-      .toUpperCase();
+  const [openMenu, setOpenMenu] = useState(null);
+
+  const toggleMenu = (menu) => {
+    setOpenMenu(openMenu === menu ? null : menu);
   };
 
-  const displayName = studentData?.fullName || studentData?.name || user?.displayName || user?.email?.split("@")[0] || "Unknown";
-  const displayRole = "Student";
+  const getInitials = (name) => {
+    if (!name) return "";
+    return name.split(" ").map(n => n[0]).slice(0, 2).join("").toUpperCase();
+  };
+
+  const displayName =
+    studentData?.fullName ||
+    studentData?.name ||
+    user?.displayName ||
+    user?.email?.split("@")[0] ||
+    "Student";
 
   return (
-    <aside
-      role="navigation"
-      aria-label="Main sidebar"
-      className="w-64 h-screen bg-gradient-to-b from-base-200 to-base-300 border-r border-base-300 shadow-lg flex flex-col"
-    >
-      <nav className="flex-1 overflow-y-auto pr-2 space-y-2 pb-6 p-4">
-        {/* Home button */}
+    <aside className="w-64 min-h-screen bg-slate-900 text-white flex flex-col shadow-xl">
+
+      {/* TOP */}
+      <div className="p-6 text-lg font-bold border-b border-slate-700">
+        🎓 Student Panel
+      </div>
+
+      {/* NAV */}
+      <nav className="flex-1 p-4 space-y-2 text-sm">
+
+        {/* HOME */}
         <Link
           to="/student-dashboard"
-          className="btn btn-ghost btn-block justify-start gap-3 text-base-content hover:bg-primary/10 transition-colors duration-200 rounded-lg"
-          aria-label="Home"
+          className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800 transition"
         >
-          <FaHome className="text-primary" />
-          <span className="font-medium">Home</span>
+          <FaHome />
+          Home
         </Link>
 
+        {/* ROUTINE */}
         <Link
           to="/student-dashboard/student-routine"
-          className="btn btn-ghost btn-block justify-start gap-3 text-base-content hover:bg-primary/10 transition-colors duration-200 rounded-lg"
-          aria-label="Student Routine"
+          className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800 transition"
         >
-          <MdSchedule className="text-primary" />
-          <span className="font-medium">Student Routine</span>
+          <MdSchedule />
+          Student Routine
         </Link>
 
-        {/* Results dropdown */}
-        <div className="dropdown w-full">
-          <label
-            tabIndex={0}
-            className="btn btn-ghost btn-block justify-between hover:bg-primary/10 transition-colors duration-200 rounded-lg"
+        {/* RESULTS */}
+        <div>
+          <button
+            onClick={() => toggleMenu("results")}
+            className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800"
           >
             <span className="flex items-center gap-3">
-              <FaChalkboardTeacher className="text-primary" />
-              <span className="font-medium">Results</span>
+              <FaChalkboardTeacher />
+              Results
             </span>
-            <FaAngleDown className="text-primary/70" />
-          </label>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-56 z-20"
-          >
-            <li>
+            <FaAngleDown className={`${openMenu === "results" ? "rotate-180" : ""} transition`} />
+          </button>
+
+          {openMenu === "results" && (
+            <div className="ml-6 mt-2 space-y-1">
               <Link
                 to="/student-dashboard/student-result"
-                className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1"
+                className="block px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-800"
               >
                 View Results
               </Link>
-            </li>
-          </ul>
+            </div>
+          )}
         </div>
 
-        <div className="dropdown w-full">
-          <label
-            tabIndex={0}
-            className="btn btn-ghost btn-block justify-between hover:bg-primary/10 transition-colors duration-200 rounded-lg"
+        {/* FEES */}
+        <div>
+          <button
+            onClick={() => toggleMenu("fees")}
+            className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800"
           >
             <span className="flex items-center gap-3">
-              <FaChalkboardTeacher className="text-primary" />
-              <span className="font-medium">Tuition & Fees</span>
+              <FaChalkboardTeacher />
+              Tuition & Fees
             </span>
-            <FaAngleDown className="text-primary/70" />
-          </label>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-56 z-20"
-          >
-            <li>
+            <FaAngleDown className={`${openMenu === "fees" ? "rotate-180" : ""} transition`} />
+          </button>
+
+          {openMenu === "fees" && (
+            <div className="ml-6 mt-2 space-y-1">
               <Link
                 to="/student-dashboard/student-fees/unpaid-fees"
-                className="flex justify-between items-center hover:bg-primary/10 rounded-md px-2 py-1"
+                className="block px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-800"
               >
                 View Fees
               </Link>
-            </li>
-          </ul>
+            </div>
+          )}
         </div>
 
-        <div className="divider my-2"></div>
-                <div>
-                  <Link
-                    to="/"
-                  className="btn btn-ghost btn-block justify-start gap-3 text-base-content"
-                  aria-label="Home"
-                >
-                  <FaHome></FaHome>
-                  <span>Back to Home</span>
-                </Link>
-                <Link to="/about-us" className="btn btn-ghost btn-block justify-start gap-3 text-base-content">
-                          <MdOutlineRoundaboutRight />
-                          <span>About Us</span>
-                        </Link>
-                </div>
+        {/* DIVIDER */}
+        <div className="border-t border-slate-700 my-3"></div>
+
+        {/* EXTRA LINKS */}
+        <Link
+          to="/"
+          className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800"
+        >
+          <FaHome />
+          Back to Home
+        </Link>
+
+        <Link
+          to="/about-us"
+          className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800"
+        >
+          <MdOutlineRoundaboutRight />
+          About Us
+        </Link>
+
       </nav>
 
-      {/* User info at the bottom (fixed) */}
-      <div
-        className="sticky bottom-0 bg-gradient-to-r from-base-200 to-base-300 pt-4 border-t border-base-300 flex-none z-10 shadow-inner"
-      >
-        <div className="flex items-center gap-3 p-2 rounded-lg bg-base-100/50 backdrop-blur-sm mx-4 mb-4">
-          <div className="avatar ring-2 ring-primary/20">
-            {studentData?.photoURL || studentData?.avatar || studentData?.photo || user?.photoURL || user?.avatar || user?.photo ? (
-              <div className="w-12 h-12 rounded-full overflow-hidden">
-                <img
-                  src={studentData?.photoURL || studentData?.avatar || studentData?.photo || user?.photoURL || user?.avatar || user?.photo}
-                  alt={`${displayName} profile`}
-                  className="object-cover"
-                />
-              </div>
-            ) : (
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary/80 text-white flex items-center justify-center text-lg font-bold shadow-md">
-                {getInitials(displayName)}
-              </div>
-            )}
-          </div>
-          <div className="text-sm flex-1">
-            <div className="font-semibold text-base-content">{displayName}</div>
-            <div className="text-xs opacity-80 truncate">{studentData?.email || user?.email || 'No email'}</div>
-            <div className="flex items-center gap-2 mt-1">
-              <span className="badge badge-primary badge-xs text-white">{displayRole}</span>
+      {/* USER CARD */}
+      <div className="p-4 border-t border-slate-700">
+        <div className="bg-slate-800 rounded-xl p-3 flex items-center gap-3">
+
+          {/* AVATAR */}
+          {studentData?.photo || user?.photoURL ? (
+            <img
+              src={studentData?.photo || user?.photoURL}
+              className="w-10 h-10 rounded-full object-cover"
+              alt="user"
+            />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center font-bold">
+              {getInitials(displayName)}
             </div>
+          )}
+
+          {/* INFO */}
+          <div className="flex-1">
+            <p className="text-sm font-semibold">{displayName}</p>
+            <p className="text-xs text-slate-400">
+              {studentData?.email || user?.email}
+            </p>
+            <span className="text-xs text-blue-400">Student</span>
           </div>
+
+          {/* LOGOUT */}
           <button
             onClick={logout}
-            className="btn btn-sm btn-circle btn-ghost hover:bg-error/20 hover:text-error transition-all duration-200 group"
-            aria-label="Logout"
-            title="Logout"
+            className="p-2 rounded-lg hover:bg-red-500/20 hover:text-red-400 transition"
           >
-            <FaSignOutAlt className="w-4 h-4 group-hover:scale-110 transition-transform" />
+            <FaSignOutAlt />
           </button>
         </div>
       </div>
+
     </aside>
   );
 };

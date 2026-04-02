@@ -6,36 +6,62 @@ const HomeHeader = ({
     address = 'Kaligonj - Gazipur, Bangladesh',
     establishedYear = '1995',
     motto = 'Excellence in Education, Empowering Young Women',
-    logoAlt = 'St. Marys Girls High School And College logo',
+    logoAlt = 'School logo',
 }) => {
     return (
-        <header role="banner" aria-label="School header" className="w-full border-b shadow-sm bg-gradient-to-r from-blue-50 to-indigo-100">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 justify-between">
-                    <div className="flex items-center gap-4">
-                        <div className="avatar">
-                            <div className="w-16 sm:w-20 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                                <img src={logo} alt={logoAlt} />
+        <header className="w-full sticky top-0 z-50 backdrop-blur-md bg-slate-900/80 border-b border-slate-700 shadow-md">
+            <div className="max-w-7xl mx-auto px-4 py-3">
+
+                <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+
+                    {/* LEFT */}
+                    <div className="flex items-center gap-4 group">
+
+                        {/* Logo */}
+                        <div className="relative">
+                            <div className="w-16 md:w-20 rounded-full overflow-hidden border-2 border-blue-500 shadow-md transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl">
+                                <img src={logo} alt={logoAlt} className="object-cover w-full h-full" />
                             </div>
+
+                            <div className="absolute inset-0 rounded-full bg-blue-400 opacity-0 group-hover:opacity-20 blur-md transition duration-300"></div>
                         </div>
-                        <div className="text-center sm:text-left">
-                            <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-base-content">
+
+                        {/* Info */}
+                        <div>
+                            <h1 className="text-lg md:text-2xl font-extrabold text-white leading-tight">
                                 {schoolName}
                             </h1>
-                            <p className="text-sm sm:text-base text-base-content/70">{address}</p>
-                            <p className="text-xs sm:text-sm text-base-content/60 italic mt-1">"{motto}"</p>
+
+                            <p className="text-sm text-slate-300">{address}</p>
+
+                            <p className="text-xs italic text-blue-400 mt-1 hidden sm:block">
+                                "{motto}"
+                            </p>
                         </div>
                     </div>
 
-                    <div className="text-center sm:text-right">
-                        <p className="text-sm sm:text-base font-medium text-base-content/80">
-                            Established in {establishedYear}
-                        </p>
-                        {/* <div className="flex gap-3 mt-2 justify-center sm:justify-end">
-                            <button className="btn btn-sm btn-primary text-white">Admission</button>
-                            <button className="btn btn-sm btn-outline btn-primary">Contact</button>
+                    {/* RIGHT */}
+                    <div className="flex items-center gap-4">
+
+                        {/* Badge */}
+                        <div className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-md hover:scale-105 transition">
+                            <span className="text-sm font-semibold">
+                                Est. {establishedYear}
+                            </span>
+                        </div>
+
+                        {/* Buttons */}
+                        {/* <div className="flex gap-2">
+                            <button className="px-4 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition shadow">
+                                Dashboard
+                            </button>
+                            <button className="px-4 py-2 text-sm rounded-lg border border-slate-600 text-slate-200 hover:bg-slate-800 transition">
+                                Profile
+                            </button>
                         </div> */}
+
                     </div>
+
                 </div>
             </div>
         </header>

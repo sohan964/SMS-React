@@ -1,47 +1,46 @@
-/* Print styles for Student Result */
 @media print {
-    /* Hide all elements except the result sheet */
-    body * {
-        visibility: hidden;
-    }
-    
-    /* Show only the result sheet and its children */
-    .bg-white, .bg-white * {
-        visibility: visible;
-    }
-    
-    /* Position the result sheet to start from top left */
-    .bg-white {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-    }
-    
-    /* Ensure proper spacing and sizing for print */
-    .container {
-        max-width: 100%;
-        padding: 0;
-        margin: 0;
-    }
-    
-    /* Table styling for print */
-    table {
-        page-break-inside: auto;
-    }
-    
-    tr {
-        page-break-inside: avoid;
-        page-break-after: auto;
-    }
-    
-    /* Ensure proper text sizing */
-    th, td {
-        font-size: 12px;
-    }
-    
-    /* Footer signature lines */
-    .h-16 {
-        height: 2rem !important;
-    }
+
+  /* Reset everything */
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: white;
+  }
+
+  /* Hide everything */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Show only result */
+  .result-sheet,
+  .result-sheet * {
+    visibility: visible;
+  }
+
+  /* Keep natural flow (IMPORTANT FIX) */
+  .result-sheet {
+    position: relative;
+    margin: auto;
+    width: 100%;
+    max-width: 210mm;
+    min-height: 297mm;
+    padding: 20mm;
+    box-sizing: border-box;
+
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* Hide UI elements */
+  .print\:hidden {
+    display: none !important;
+  }
+
+}
+
+  .a4-page {
+  max-width: 210mm;
+  margin: auto;
+  padding: 20px;
 }

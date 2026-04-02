@@ -67,94 +67,95 @@ const AdminLogin = () => {
     };
 
     return (
-        <div className="flex min-h-[70vh] items-center justify-center p-6">
-            <div className="card w-full max-w-md bg-base-100 shadow-md">
-                <div className="card-body">
-                    <h2 className="card-title text-2xl">Admin Login</h2>
+  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 via-blue-50 to-indigo-100 p-6">
 
-                    {error && (
-                        <div className="alert alert-error py-2 px-3 text-sm">
-                            <span>{error}</span>
-                        </div>
-                    )}
+    {/* LOGIN CARD */}
+    <div className="w-full max-w-md bg-white/80 backdrop-blur-md rounded-2xl shadow-lg p-6">
 
-                    <form onSubmit={handleLogin} className="space-y-4">
-                        {/* Email */}
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Email</span>
-                            </label>
-                            <div className="relative">
-                            <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder="admin@example.com"
-                                aria-label="Email"
-                                className="input input-bordered w-full"
-                                required
-                            />
-                            </div>
-                        </div>
+      {/* HEADER */}
+      <div className="mb-6 text-center">
+        <h2 className="text-2xl font-bold text-gray-800">
+          Admin Login
+        </h2>
+        <p className="text-sm text-gray-500">
+          Access your dashboard securely
+        </p>
+      </div>
 
-                        {/* Password */}
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Password</span>
-                            </label>
-                            <div className="relative">
-                                <input
-                                    type={showPassword ? 'text' : 'password'}
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    placeholder="Your secure password"
-                                    aria-label="Password"
-                                    className="input input-bordered w-full pr-10"
-                                    required
-                                />
-                                <button
-                                    type="button"
-                                    onClick={() => setShowPassword((s) => !s)}
-                                    aria-label={showPassword ? 'Hide password' : 'Show password'}
-                                    className="btn btn-ghost btn-sm absolute right-1 top-1/2 -translate-y-1/2"
-                                >
-                                    {showPassword ? 'Hide' : 'Show'}
-                                </button>
-                            </div>
-                            
-                        </div>
-
-                        {/* Submit */}
-                        <div className="form-control mt-4">
-                            <button
-                                type="submit"
-                                className={`btn btn-primary`}
-                                
-                            >
-                               Login
-                            </button>
-                        </div>
-                    </form>
-
-                    {/* Optional links */}
-                    <div className="divider my-2"></div>
-                    <div className="text-sm text-center">
-                        <button
-                            type="button"
-                            onClick={() =>
-                                setError(
-                                    'If you forgot your admin credentials, please contact the system administrator.'
-                                )
-                            }
-                            className="link"
-                        >
-                            Forgot password?
-                        </button>
-                    </div>
-                </div>
-            </div>
+      {/* ERROR */}
+      {error && (
+        <div className="mb-4 text-sm bg-red-100 text-red-600 px-3 py-2 rounded-lg">
+          {error}
         </div>
-    );
+      )}
+
+      {/* FORM */}
+      <form onSubmit={handleLogin} className="space-y-4">
+
+        {/* EMAIL */}
+        <div>
+          <label className="text-sm text-gray-600">Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="admin@example.com"
+            className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
+            required
+          />
+        </div>
+
+        {/* PASSWORD */}
+        <div>
+          <label className="text-sm text-gray-600">Password</label>
+
+          <div className="relative mt-1">
+            <input
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Your secure password"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg pr-16 focus:ring-2 focus:ring-blue-500 outline-none transition"
+              required
+            />
+
+            <button
+              type="button"
+              onClick={() => setShowPassword((s) => !s)}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-blue-600 hover:underline"
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
+        </div>
+
+        {/* BUTTON */}
+        <button
+          type="submit"
+          className="w-full py-2 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold hover:scale-[1.02] transition"
+        >
+          Login
+        </button>
+
+      </form>
+
+      {/* FOOTER */}
+      <div className="mt-6 text-center text-sm text-gray-500">
+        <button
+          onClick={() =>
+            setError(
+              "If you forgot your admin credentials, please contact the system administrator."
+            )
+          }
+          className="text-blue-600 hover:underline"
+        >
+          Forgot password?
+        </button>
+      </div>
+
+    </div>
+  </div>
+);
 };
 
 export default AdminLogin;

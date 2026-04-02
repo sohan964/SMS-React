@@ -1,179 +1,191 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
-  FaAngleDown,
-  FaChalkboardTeacher,
   FaHome,
   FaSignOutAlt,
   FaUser,
+  FaChalkboardTeacher,
 } from "react-icons/fa";
 import { AuthContext } from "../../providers/AuthProvider";
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
 import useTeacherData from "../../hooks/useTeacherData";
 import { MdOutlineRoundaboutRight } from "react-icons/md";
 import { RiNotificationLine } from "react-icons/ri";
+import { ChevronDown } from "lucide-react";
 
 const TeacherSidebar = () => {
   const { user, logout } = useContext(AuthContext);
   const [teacherData] = useTeacherData(user?.email);
-  return (
-    <aside
-      role="navigation"
-      aria-label="Teacher sidebar"
-      className="w-64 min-h-screen bg-base-200 border-r p-4 relative"
-    >
-      <nav className="space-y-3">
-        {/* Home button */}
-        <a
-          href="/teacher-dashboard"
-          className="btn btn-ghost btn-block justify-start gap-3 text-base-content"
-          aria-label="Home"
-        >
-          <FaHome></FaHome>
-          <span>Teacher Home</span>
-        </a>
 
-        {/* Attendance dropdown */}
-        <div className="dropdown w-full">
-          <label
-            tabIndex={0}
-            className="btn btn-ghost btn-block justify-between"
+  const [openMenu, setOpenMenu] = useState(null);
+
+  const toggleMenu = (menu) => {
+    setOpenMenu(openMenu === menu ? null : menu);
+  };
+
+  return (
+    <aside className="w-64 min-h-screen bg-slate-900 text-white flex flex-col shadow-xl">
+
+      {/* TOP */}
+      <div className="p-6 text-lg font-bold border-b border-slate-700">
+        🎓 Teacher Panel
+      </div>
+
+      {/* NAV */}
+      <nav className="flex-1 p-4 space-y-2 text-sm">
+
+        {/* Home */}
+        <NavLink
+          to="/teacher-dashboard"
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-3 rounded-xl transition-all
+            ${isActive
+              ? "bg-gradient-to-r from-blue-500 to-indigo-500 shadow-md"
+              : "text-slate-300 hover:bg-slate-800"
+            }`
+          }
+        >
+          <FaHome />
+          Teacher Home
+        </NavLink>
+
+        {/* Attendance */}
+        <div>
+          <button
+            onClick={() => toggleMenu("attendance")}
+            className="w-full flex items-center justify-between px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-300"
           >
             <span className="flex items-center gap-3">
               <FaChalkboardTeacher />
-              <span>Manage Attendance</span>
+              Manage Attendance
             </span>
-            <FaAngleDown />
-          </label>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-56"
-          >
-            {/* Replace <a href> with <Link to> if using react-router-dom */}
-            <li>
-              <Link
+            <ChevronDown
+              size={16}
+              className={`transition ${openMenu === "attendance" ? "rotate-180" : ""}`}
+            />
+          </button>
+
+          {openMenu === "attendance" && (
+            <div className="ml-6 mt-2 space-y-1">
+              <NavLink
                 to="/teacher-dashboard/manage-attendances"
-                className="flex justify-between items-center"
+                className="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400"
               >
                 Manage Attendances
-              </Link>
-            </li>
-            {/* Placeholder for more teacher items */}
-            <li>
-              <Link to="/teacher-dashboard/manage-attendances/take-attendance" className="flex justify-between items-center">
+              </NavLink>
+              <NavLink
+                to="/teacher-dashboard/manage-attendances/take-attendance"
+                className="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400"
+              >
                 Take Attendance
-              </Link>
-            </li>
-            <li>
-              <Link to="/teacher-dashboard/manage-attendances/attendance-summary" className="flex justify-between items-center">
+              </NavLink>
+              <NavLink
+                to="/teacher-dashboard/manage-attendances/attendance-summary"
+                className="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400"
+              >
                 Attendance Summary
-              </Link>
-            </li>
-            {/* Add more teacher options as needed */}
-          </ul>
+              </NavLink>
+            </div>
+          )}
         </div>
 
-
-
-        <div className="dropdown w-full">
-          <label
-            tabIndex={0}
-            className="btn btn-ghost btn-block justify-between"
+        {/* Results */}
+        <div>
+          <button
+            onClick={() => toggleMenu("results")}
+            className="w-full flex items-center justify-between px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-300"
           >
             <span className="flex items-center gap-3">
               <FaChalkboardTeacher />
-              <span>Manage Result</span>
+              Manage Result
             </span>
-            <FaAngleDown />
-          </label>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-56"
-          >
-            {/* Replace <a href> with <Link to> if using react-router-dom */}
-            <li>
-              <Link
+            <ChevronDown
+              size={16}
+              className={`transition ${openMenu === "results" ? "rotate-180" : ""}`}
+            />
+          </button>
+
+          {openMenu === "results" && (
+            <div className="ml-6 mt-2 space-y-1">
+              <NavLink
                 to="/teacher-dashboard/manage-results/add-results"
-                className="flex justify-between items-center"
+                className="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400"
               >
                 Submit Result
-              </Link>
-            </li>
-            <li>
-              <Link
+              </NavLink>
+              <NavLink
                 to="/teacher-dashboard/manage-results/result-list"
-                className="flex justify-between items-center"
+                className="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400"
               >
                 Student Results
-              </Link>
-            </li>
-            {/* Placeholder for more teacher items */}
-            
-            {/* Add more teacher options as needed */}
-          </ul>
+              </NavLink>
+            </div>
+          )}
         </div>
 
-        {/* Divider for visual separation */}
-        <div className="divider my-2"></div>
-        <div>
-          <Link
-            to="/"
-          className="btn btn-ghost btn-block justify-start gap-3 text-base-content"
-          aria-label="Home"
+        {/* Divider */}
+        <div className="border-t border-slate-700 my-3"></div>
+
+        {/* Other Links */}
+        <NavLink
+          to="/"
+          className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-300"
         >
-          <FaHome></FaHome>
-          <span>Back to Home</span>
-        </Link>
-        <Link to="/about-us" className="btn btn-ghost btn-block justify-start gap-3 text-base-content">
-                  <MdOutlineRoundaboutRight />
-                  <span>About Us</span>
-                </Link>
-        </div>
+          <FaHome />
+          Back to Home
+        </NavLink>
 
-        <Link to="/notices" className="btn btn-ghost btn-block justify-start gap-3 text-base-content">
-                  <RiNotificationLine />
-                  <span>Notices</span>
-                </Link>
-        {/* Placeholder area for future items */}
-        <div className="text-sm text-base-content/70 px-2">
-          You can add more links, quick actions, or tools here later.
-        </div>
+        <NavLink
+          to="/about-us"
+          className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-300"
+        >
+          <MdOutlineRoundaboutRight />
+          About Us
+        </NavLink>
 
+        <NavLink
+          to="/notices"
+          className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-300"
+        >
+          <RiNotificationLine />
+          Notices
+        </NavLink>
       </nav>
 
-      {/* User info section at the bottom */}
-      <div className="absolute bottom-20 left-0 right-0 p-4 border-t bg-base-200">
-        <div className="flex items-center gap-3">
-          <div className="avatar">
-            {teacherData?.photo ? (
-              <div className="w-12 rounded-full">
-                <img src={teacherData.photo} alt={`${teacherData.first_name} ${teacherData.last_name}`} />
-              </div>
-            ) : (
-              <div className="bg-neutral text-neutral-content rounded-full w-12 placeholder">
-                <span className="text-xl">
-                  {user?.name ? user.name.charAt(0).toUpperCase() : <FaUser />}
-                </span>
-              </div>
-            )}
-          </div>
+      {/* USER CARD */}
+      <div className="p-4 border-t border-slate-700">
+        <div className="bg-slate-800 rounded-xl p-3 flex items-center gap-3">
+
+          {/* Avatar */}
+          {teacherData?.photo ? (
+            <img
+              src={teacherData.photo}
+              className="w-10 h-10 rounded-full object-cover"
+              alt="user"
+            />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center font-bold">
+              {user?.name ? user.name.charAt(0).toUpperCase() : <FaUser />}
+            </div>
+          )}
+
+          {/* Info */}
           <div className="flex-1">
-            <p className="text-sm font-semibold text-base-content">
-              {teacherData ? `${teacherData.first_name} ${teacherData.last_name}` : (user?.fullName || "User")}
+            <p className="text-sm font-semibold">
+              {teacherData
+                ? `${teacherData.first_name} ${teacherData.last_name}`
+                : user?.fullName || "User"}
             </p>
-            <p className="text-xs text-base-content/70">
-              {user?.email || "No email"}
-            </p>
-            <p className="text-xs text-base-content/70">
-              {user?.role || "Teacher"}
+            <p className="text-xs text-slate-400">
+              {user?.email}
             </p>
           </div>
+
+          {/* Logout */}
           <button
             onClick={logout}
-            className="btn btn-sm btn-circle btn-ghost hover:bg-error/20 hover:text-error transition-all duration-200 group"
-            aria-label="Logout"
-            title="Logout"
+            className="p-2 rounded-lg hover:bg-red-500/20 hover:text-red-400 transition"
           >
-            <FaSignOutAlt className="w-4 h-4 group-hover:scale-110 transition-transform" />
+            <FaSignOutAlt />
           </button>
         </div>
       </div>

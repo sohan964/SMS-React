@@ -153,52 +153,27 @@ const TeacherHome = () => {
   <div className="space-y-6">
 
     {/* TOP WELCOME CARD */}
-    <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl p-6 shadow-lg">
+    {/* <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl p-6 shadow-lg">
       <h1 className="text-2xl md:text-3xl font-bold">
         👋 Welcome, {teacherData.first_name}
       </h1>
       <p className="opacity-90 mt-1 text-sm md:text-base">
         Here's what's happening with your classes today
       </p>
-    </div>
+    </div> */}
 
     {/* PROFILE + INFO */}
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
 
       {/* PROFILE */}
-      <div className="lg:col-span-2 bg-white/80 backdrop-blur-md rounded-2xl shadow-md p-6">
-        <h2 className="text-lg font-semibold text-gray-700 mb-4">
-          👤 Profile Overview
-        </h2>
-        <ManageProfile />
-      </div>
+      <div className="lg:col-span-2 w-full bg-white/80 backdrop-blur-md rounded-2xl shadow-md p-6">
+  <h2 className="text-lg font-semibold text-gray-700 mb-4">
+    👤 Profile Overview
+  </h2>
+  <ManageProfile />
+</div>
 
-      {/* QUICK INFO CARDS */}
-      <div className="space-y-4">
 
-        <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-md p-5">
-          <p className="text-xs text-gray-500">Academic Year</p>
-          <p className="font-bold text-lg text-gray-800">
-            {years.find(y => y.year_id === currentYearId)?.year_lable || 'N/A'}
-          </p>
-        </div>
-
-        <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-md p-5">
-          <p className="text-xs text-gray-500">Department</p>
-          <p className="font-bold text-lg text-gray-800">
-            {teacherData.department_name || 'N/A'}
-          </p>
-        </div>
-
-        <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-md p-5">
-          <p className="text-xs text-gray-500">Teacher Code</p>
-          <p className="font-bold text-lg text-gray-800">
-            {teacherData.teacher_code || 'N/A'}
-          </p>
-        </div>
-
-      </div>
-    </div>
 
     {/* ROUTINE SECTION */}
     <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-md p-6">

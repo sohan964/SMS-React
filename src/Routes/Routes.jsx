@@ -47,6 +47,7 @@ import PendingPayments from "../pages/admins/ManageFees/PendingPayments";
 import GenerateMonthlyFees from "../pages/admins/ManageFees/GenerateMonthlyFees";
 import ContactUs from "../pages/ContactUs/ContactUs";
 import ResultList from "../pages/teachers/ManageResults/ResultList";
+import ExamRoutine from "../pages/students/ExamRoutine/ExamRoutine";
 
 
 export const router = createBrowserRouter([
@@ -241,7 +242,12 @@ export const router = createBrowserRouter([
             {
                 path: "student-fees/unpaid-fees",
                 element: <UnpaidFees></UnpaidFees>
+            },
+            {
+                path: "exam-routine",
+                element: <ExamRoutine></ExamRoutine>
             }
+
         ]
     }
 ])

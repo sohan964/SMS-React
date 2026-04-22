@@ -48,6 +48,7 @@ import GenerateMonthlyFees from "../pages/admins/ManageFees/GenerateMonthlyFees"
 import ContactUs from "../pages/ContactUs/ContactUs";
 import ResultList from "../pages/teachers/ManageResults/ResultList";
 import ExamRoutine from "../pages/students/ExamRoutine/ExamRoutine";
+import StudentPayList from "../pages/students/StudentFees/StudentPayList";
 
 
 export const router = createBrowserRouter([
@@ -246,6 +247,10 @@ export const router = createBrowserRouter([
             {
                 path: "exam-routine",
                 element: <ExamRoutine></ExamRoutine>
+            },
+            {
+                path: "student-fees/students-payments",
+                element: <StudentPayList></StudentPayList>
             }
 
         ]

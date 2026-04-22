@@ -103,6 +103,17 @@ const StudentSidebar = () => {
               </Link>
             </div>
           )}
+
+          {openMenu === "fees" && (
+            <div className="ml-6 mt-2 space-y-1">
+              <Link
+                to="/student-dashboard/student-fees/students-payments"
+                className="block px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-800"
+              >
+                View All Payments
+              </Link>
+            </div>
+          )}
         </div>
 
         {/* DIVIDER */}
